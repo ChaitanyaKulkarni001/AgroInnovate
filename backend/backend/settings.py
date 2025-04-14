@@ -34,7 +34,8 @@ ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
     "corsheaders",
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -98,11 +100,11 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PWD"),
-        "HOST": os.getenv("DB_HOST"),
-        "PORT": os.getenv("DB_PORT"),
+        "NAME": "AgroInnovate",          # Replace with your actual database name
+        "USER": "postgres",          # Replace with your database username
+        "PASSWORD": "postgres",  # Replace with your database password
+        "HOST": "localhost",                   # Replace with your database host (e.g., "localhost", "127.0.0.1", or a remote host)
+        "PORT": "5432",                       # Replace with your database port (default is 5432 for PostgreSQL)
     }
 }
 
