@@ -1,0 +1,231 @@
+[
+    {
+      "model": "api.customuser",
+      "pk": 1,
+      "fields": {
+        "username": "farmer_anna",
+        "password": "pbkdf2_sha256$1000000$P6VJsnIvOgHUVMcAWF1ZHg$Orv88PX01EOy7v9Cm15pgckk9MJM15yCruKDGw1tThI=",  
+        "role": "farmer",
+        "phone_number": "9000000001",
+        "country": 1,
+        "state": 1,
+        "city": 1,
+        "is_active": true,
+        "is_staff": false
+      }
+    },
+    {
+      "model": "api.farmerprofile",
+      "pk": 1,
+      "fields": {
+        "user": 1,
+        "farm_name": "Green Valley Farm",
+        "farm_size": "5.5",
+        "farm_type": "Organic",
+        "experience_years": 6,
+        "business_registration_number": "REG12345",
+        "bank_account_number": "123456789012",
+        "ifsc_code": "SBIN0001234",
+        "upi_id": "anna@ybl",
+        "id_proof": "",
+        "ownership_proof": "",
+        "is_verified": true,
+        "registration_date": "2024-04-19T10:00:00Z",
+       "billing_id": "BILL0001",
+      "latitude": null,
+      "longitude": null
+      }
+    },
+    {
+      "model": "api.customuser",
+      "pk": 2,
+      "fields": {
+        "username": "farmer_rahul",
+        "password": "pbkdf2_sha256$1000000$CHBqwljyRugCX8tTdBemnh$8myryvSPaepiLZckmQoUcpi1McaZQJvy1FSpEof7Dq4=",
+        "role": "farmer",
+        "phone_number": "9000000002",
+        "country": 1,
+        "state": 1,
+        "city": 2,
+        "is_active": true,
+        "is_staff": false
+      }
+    },
+    {
+      "model": "api.farmerprofile",
+      "pk": 2,
+      "fields": {
+        "user": 2,
+        "farm_name": "Rahul's Organic Hub",
+        "farm_size": "12.0",
+        "farm_type": "Organic",
+        "experience_years": 10,
+        "business_registration_number": "REG54321",
+        "bank_account_number": "987654321098",
+        "ifsc_code": "HDFC0005678",
+        "upi_id": "rahul@upi",
+        "id_proof": "",
+        "ownership_proof": "",
+        "is_verified": false,
+        "registration_date": "2024-04-19T10:00:00Z",
+
+       "billing_id": "BILL0002",
+      "latitude": null,
+      "longitude": null
+
+      }
+    },
+    {
+      "model": "api.customuser",
+      "pk": 3,
+      "fields": {
+        "username": "farmer_sita",
+        "password": "pbkdf2_sha256$1000000$NttIkHDghUFRKgZKzQZ7fJ$gIfkDyM+wEawfzShWo4VpyW6GzznLLrZff0zlKKFZro=",
+        "role": "farmer",
+        "phone_number": "9000000003",
+        "country": 1,
+        "state": 2,
+        "city": 3,
+        "is_active": true,
+        "is_staff": false
+      }
+    },
+    {
+      "model": "api.farmerprofile",
+      "pk": 3,
+      "fields": {
+        "user": 3,
+        "farm_name": "Sita’s Herbs Garden",
+        "farm_size": "2.3",
+        "farm_type": "Conventional",
+        "experience_years": 4,
+        "business_registration_number": "",
+        "bank_account_number": "321456789012",
+        "ifsc_code": "ICIC0003344",
+        "upi_id": "sita@okaxis",
+        "id_proof": "",
+        "ownership_proof": "",
+        "is_verified": true,
+        "registration_date": "2024-04-19T10:00:00Z",
+        "billing_id": "BILL0003",
+      "latitude": null,
+      "longitude": null
+
+      }
+    },
+    {
+      "model": "api.customuser",
+      "pk": 4,
+      "fields": {
+        "username": "farmer_ali",
+        "password": "pbkdf2_sha256$1000000$867z98jWXAR7aGBgcIzR5m$TTeoYLrAiTAbhR6kjj3yDIIOmOWtAkWWGMy+Mygiiu0=",
+        "role": "farmer",
+        "phone_number": "9000000004",
+        "country": 1,
+        "state": 2,
+        "city": 4,
+        "is_active": true,
+        "is_staff": false
+      }
+    },
+    {
+      "model": "api.farmerprofile",
+      "pk": 4,
+      "fields": {
+        "user": 4,
+        "farm_name": "Ali's Dairy Farm",
+        "farm_size": "8.0",
+        "farm_type": "Conventional",
+        "experience_years": 8,
+        "business_registration_number": "DAIRY898",
+        "bank_account_number": "123123123123",
+        "ifsc_code": "AXIS0001234",
+        "upi_id": "ali@upi",
+        "id_proof": "",
+        "ownership_proof": "",
+        "is_verified": true,
+        "registration_date": "2024-04-19T10:00:00Z",
+        "billing_id": "BILL0004",
+      "latitude": null,
+      "longitude": null
+
+      }
+    },
+    {
+      "model": "api.customuser",
+      "pk": 5,
+      "fields": {
+        "username": "farmer_geeta",
+        "password": "pbkdf2_sha256$1000000$bRkZ1qLUyuio3Zi2IHmqay$dJ/7TP0FUXYmh+WQeaLlrxffMZBvODuSuVy9CeJ57Z8=",
+        "role": "farmer",
+        "phone_number": "9000000005",
+        "country": 1,
+        "state": 1,
+        "city": 1,
+        "is_active": true,
+        "is_staff": false
+      }
+    },
+    {
+      "model": "api.farmerprofile",
+      "pk": 5,
+      "fields": {
+        "user": 5,
+        "farm_name": "Geeta Agro Products",
+        "farm_size": "15.0",
+        "farm_type": "Organic",
+        "experience_years": 12,
+        "business_registration_number": "AGRO1122",
+        "bank_account_number": "445566778899",
+        "ifsc_code": "PNB0004567",
+        "upi_id": "geeta@okhdfc",
+        "id_proof": "",
+        "ownership_proof": "",
+        "is_verified": true,
+        "registration_date": "2024-04-19T10:00:00Z",
+        "billing_id": "BILL0005",
+      "latitude": null,
+      "longitude": null
+
+      }
+    },
+    {
+      "model": "api.customuser",
+      "pk": 6,
+      "fields": {
+        "username": "farmer_john",
+        "password": "pbkdf2_sha256$1000000$1inG0y6cAELbJUVRyERf0X$LC7hHAC/BmtBZeCIL3Ir5v+P9eibvh/hk3XiQtHOd7w=",
+        "role": "farmer",
+        "phone_number": "9000000006",
+        "country": 1,
+        "state": 1,
+        "city": 2,
+        "is_active": true,
+        "is_staff": false
+      }
+    },
+    {
+      "model": "api.farmerprofile",
+      "pk": 6,
+      "fields": {
+        "user": 6,
+        "farm_name": "John’s Livestock Farm",
+        "farm_size": "20.5",
+        "farm_type": "Conventional",
+        "experience_years": 15,
+        "business_registration_number": "LIVE1001",
+        "bank_account_number": "998877665544",
+        "ifsc_code": "BOB0009876",
+        "upi_id": "john@ybl",
+        "id_proof": "",
+        "ownership_proof": "",
+        "is_verified": false,
+        "registration_date": "2024-04-19T10:00:00Z",
+        "billing_id": "BILL0006",
+      "latitude": null,
+      "longitude": null
+
+      }
+    }
+  ]
+  

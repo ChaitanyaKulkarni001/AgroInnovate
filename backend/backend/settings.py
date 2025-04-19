@@ -40,6 +40,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SIMPLE_JWT = {
@@ -48,6 +49,8 @@ SIMPLE_JWT = {
 }
 
 # Application definition
+AUTH_USER_MODEL = 'api.CustomUser'
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
