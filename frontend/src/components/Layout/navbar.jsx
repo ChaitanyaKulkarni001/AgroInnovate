@@ -10,7 +10,9 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
+const onUserClick = ()=>{
+  navigate('/login')
+}
   useEffect(() => {
     const trimmed = searchQuery.trim();
 
@@ -95,7 +97,7 @@ const Navbar = () => {
           </button>
         </div>
 
-        <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+        <button onClick={onUserClick} className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaUser className="text-lg" />
         </button>
         <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">

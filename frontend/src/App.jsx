@@ -11,6 +11,7 @@ import ProductDetails from './components/ProductDetails';
 import About from './components/Layout/Navbar/about';
 import BecomeSeller from './components/Layout/Navbar/BecomeSeller';
 import Support from './components/Layout/Navbar/Support';
+import Login from './components/auth/Login';
 
 const Layout = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="about" element={<About />} />
           <Route path="become-seller" element={<BecomeSeller />} />
           <Route path="support" element={<Support />} />
+          <Route path="login" element={<Login />} />
           <Route path="/product/:name" element={<ProductDetails />} />
         </Route>
       </Routes>
