@@ -102,13 +102,9 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "AgroInnovate",          # Replace with your actual database name
-        "USER": "postgres",          # Replace with your database username
-        "PASSWORD": "postgres",  # Replace with your database password
-        "HOST": "localhost",                   # Replace with your database host (e.g., "localhost", "127.0.0.1", or a remote host)
-        "PORT": "5432",                       # Replace with your database port (default is 5432 for PostgreSQL)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
