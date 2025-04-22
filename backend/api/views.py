@@ -201,3 +201,4 @@ class TopCategoriesView(APIView):
         return Response({
             'top_categories': categories
         })
+        
