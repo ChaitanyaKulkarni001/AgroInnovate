@@ -1,4 +1,3 @@
- // Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
@@ -22,11 +21,6 @@ const Navbar = () => {
       ) {
         navigate(`/products?search=${encodeURIComponent(trimmed)}`, { replace: true });
       }
-    } else {
-      // When input is cleared, and we're on /products, go back home
-      // if (location.pathname.startsWith("/products")) {
-      //   navigate("/", { replace: true });
-      // }
     }
   }, [searchQuery, location.pathname, location.search, navigate]);
 
@@ -36,6 +30,11 @@ const Navbar = () => {
       <Link to="/" className="text-3xl font-bold flex items-center gap-2 transform hover:scale-105 transition-all">
         <GiFarmTractor className="text-4xl" />
         AgroKart
+      </Link>
+
+      {/* Cart Button */}
+      <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+        <FaShoppingCart className="text-lg" />
       </Link>
 
       {/* Search Bar (desktop) */}
@@ -98,9 +97,9 @@ const Navbar = () => {
         <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaUser className="text-lg" />
         </button>
-        <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+        <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaShoppingCart className="text-lg" />
-        </button>
+        </Link>
       </div>
     </header>
   );
