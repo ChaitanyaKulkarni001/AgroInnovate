@@ -1,60 +1,29 @@
 import React, { useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 const ProductAnalytics = () => {
   const [analyticsData] = useState([
-    { productName: 'Organic Apple', views: 350, clicks: 40, conversionRate: 11.43 },
-    { productName: 'Organic Banana', views: 500, clicks: 60, conversionRate: 12.00 },
-    { productName: 'Organic Carrot', views: 120, clicks: 15, conversionRate: 12.5 },
-    { productName: 'Organic Tomato', views: 220, clicks: 30, conversionRate: 13.64 },
+    { productName: 'Organic Apple', unitsSold: 150, revenue: 3000 },
+    { productName: 'Organic Banana', unitsSold: 200, revenue: 2800 },
+    { productName: 'Organic Carrot', unitsSold: 90, revenue: 1200 },
+    { productName: 'Organic Tomato', unitsSold: 130, revenue: 1950 },
   ]);
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Product Analytics</h2>
+    <div className="p-6 bg-white rounded-xl shadow-lg">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Product Sales Analytics</h2>
 
-      <div className="overflow-x-auto bg-white p-6 rounded-xl shadow-lg hover:scale-105 transition duration-300">
-        <table className="min-w-full text-sm text-left text-gray-700">
-          <thead className="bg-green-600 text-white rounded-t-xl">
-            <tr>
-              <th className="px-6 py-3">Product</th>
-              <th className="px-6 py-3">Views</th>
-              <th className="px-6 py-3">Clicks</th>
-              <th className="px-6 py-3">Conversion Rate</th>
-              <th className="px-6 py-3">Performance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {analyticsData.map((data, index) => (
-              <tr
-                key={index}
-                className="border-b hover:bg-gray-50 transition duration-300 ease-in-out"
-              >
-                <td className="px-6 py-4">{data.productName}</td>
-                <td className="px-6 py-4">{data.views}</td>
-                <td className="px-6 py-4">{data.clicks}</td>
-                <td className="px-6 py-4">{data.conversionRate}%</td>
-                <td className="px-6 py-4">
-                  <div
-                    className={`inline-block px-3 py-1 rounded-full text-white ${
-                      data.conversionRate > 12
-                        ? 'bg-green-500'
-                        : data.conversionRate > 10
-                        ? 'bg-yellow-500'
-                        : 'bg-red-500'
-                    }`}
-                  >
-                    {data.conversionRate > 12
-                      ? 'Excellent'
-                      : data.conversionRate > 10
-                      ? 'Good'
-                      : 'Needs Improvement'}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={analyticsData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="productName" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="unitsSold" fill="#38a169" name="Units Sold" />
+          <Bar dataKey="revenue" fill="#3182ce" name="Revenue ($)" />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 };

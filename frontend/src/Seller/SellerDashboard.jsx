@@ -1,50 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaPlus, FaEdit, FaChartLine, FaTag, FaWallet } from 'react-icons/fa';
+import Sidebar from './components/Sidebar';
 import AddProductForm from './components/AddProductForm';
 import ManageInventory from './components/ManageInventory';
 import ViewSales from './components/ViewSales';
+import PromotionsAndDiscounts from './components/PromotionsDiscount';
+import FinancialsAndPayments from './components/FinancialsAndPayments';
 import ProductAnalytics from './components/ProductAnalytics';
 import OrderManagement from './components/OrderManagement';
- 
- 
+import Settings from './components/Settings';
+
 const SellerDashboard = () => {
+  const [activeComponent, setActiveComponent] = useState('addProduct');
+
+  // Component rendering logic
+  const renderComponent = () => {
+    switch (activeComponent) {
+      case 'addProduct':
+        return <AddProductForm />;
+      case 'manageInventory':
+        return <ManageInventory />;
+      case 'viewSales':
+        return <ViewSales />;
+      case 'promotions':
+        return <PromotionsAndDiscounts />;
+      case 'financials':
+        return <FinancialsAndPayments />;
+      case 'productAnalytics':
+        return <ProductAnalytics />;
+      case 'orderManagement':
+        return <OrderManagement />;
+      case 'settings':
+        return <Settings />; 
+      default:
+        return <AddProductForm />;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="container mx-auto">
-        <h1 className="text-3xl font-semibold text-green-800 mb-8 text-center">Seller Dashboard</h1>
-        
-        {/* Dashboard Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {/* Add Product Card */}
-          <div className="p-6 bg-white rounded-xl shadow-lg transform hover:scale-105 transition duration-300 hover:shadow-xl">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Add Product</h3>
-            <AddProductForm />
-          </div>
+    <div className="flex min-h-screen font-sans">
+      {/* Sidebar */}
+      <Sidebar setActiveComponent={setActiveComponent} />
 
-          {/* Manage Inventory Card */}
-          <div className="p-6 bg-white rounded-xl shadow-lg transform hover:scale-105 transition duration-300 hover:shadow-xl">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Manage Inventory</h3>
-            <ManageInventory />
-          </div>
+      {/* Main Content Area */}
+      <main className="flex-1 bg-gray-50 py-10 px-6">
+        <div className="max-w-7xl mx-auto relative">
 
-          {/* View Sales Card */}
-          <div className="p-6 bg-white rounded-xl shadow-lg transform hover:scale-105 transition duration-300 hover:shadow-xl">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">View Sales</h3>
-            <ViewSales />
-          </div>
+          {/* Header */}
+          <h1 className="text-4xl font-bold text-green-800 text-center mb-12 tracking-tight">
+            Seller Dashboard
+          </h1>
+
+          {/* Component Rendering */}
+          <div>{renderComponent()}</div>
         </div>
-
-        {/* Analytics Section */}
-        <div className="mb-12 p-6 bg-white rounded-xl shadow-lg transform hover:scale-105 transition duration-300 hover:shadow-xl">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">Product Analytics</h3>
-          <ProductAnalytics />
-        </div>
-
-        {/* Order Management Section */}
-        <div className="mb-12 p-6 bg-white rounded-xl shadow-lg transform hover:scale-105 transition duration-300 hover:shadow-xl">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">Order Management</h3>
-          <OrderManagement />
-        </div>
-      </div>
+      </main>
     </div>
   );
 };
