@@ -8,6 +8,7 @@ const FinalPreferences = ({ onNext, onBack }) => {
     formState: { errors },
   } = useForm();
 
+
   const onFormSubmit = (data) => {
     console.log("Final Preferences Submitted:", data);
     onNext(data);

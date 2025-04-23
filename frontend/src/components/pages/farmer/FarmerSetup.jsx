@@ -5,12 +5,16 @@ import FarmerPage3 from "./FarmerPage3";
 import FarmerPage4 from "./FarmerPage4";
 import ProgressBar from "../../ProgressBar";
 import PersonalDetails from "../PersonalDetails"
-import ContactDetails from "../ContactDetails"
+import ContactDetails from "../ContactDetails";
+// Hook for navigation
+import { submitFarmerData } from '../../../Axios' // Importing the API call function
+import { useNavigate } from 'react-router-dom'; 
 
 const FarmerSetup = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-
+  const navigate = useNavigate();
+  
   const handleNext = (data) => {
     setFormData((prev) => ({ ...prev, ...data }));
     setStep((prev) => prev + 1);
@@ -20,9 +24,15 @@ const FarmerSetup = () => {
     setStep((prev) => prev - 1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     console.log("Final Submission:", formData);
-    // Submit to API logic here
+    try {
+      const response = await submitFarmerData(formData); // Calling API to submit data
+      console.log("Success:", response);
+      navigate('/login'); // Redirect to login page after success
+    } catch (error) {
+      console.error("Failed to submit:", error);
+    }
   };
 
   return (
