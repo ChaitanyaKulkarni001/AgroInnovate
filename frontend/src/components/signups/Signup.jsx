@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import axiosInstance from "../../Axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,13 +13,19 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    toast.success("Signup successful!");
-    if (data.role === "Farmer") {
-        navigate("/farmer-setup"); // Redirect to Farmer-specific setup page
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axiosInstance.post("/register", data);
+      toast.success("Signup successful!");
+      if (data.role === "Farmer") {
+        navigate("/farmer-setup");
       } else if (data.role === "Customer") {
-        navigate("/customer-setup"); // Redirect to Customer-specific setup page
+        navigate("/customer-setup");
       }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Signup failed. Please try again.");
+    }
   };
 
   return (

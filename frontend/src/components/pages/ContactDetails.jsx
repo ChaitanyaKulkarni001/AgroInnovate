@@ -1,19 +1,25 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const ContactDetails = ({ onSubmit }) => {
+const ContactDetails = ({ onNext }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // Debugging: Log form submission
+  const onFormSubmit = (data) => {
+    console.log("Contact Details Submitted:", data);  // For debugging
+    onNext(data); // Call the onSubmit prop passed from the parent component
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-green-50 px-4">
       <div className="max-w-md w-full bg-white p-8 shadow-md rounded-lg">
         <h2 className="text-3xl font-bold text-green-800 mb-6 text-center">Contact Details</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-5">
           {/* Phone Number */}
           <div>
             <label htmlFor="phone" className="text-green-900 block mb-1">
