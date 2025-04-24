@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AddressForm from "./AddressForm";
 
 const dummyAddresses = [
   {
@@ -19,10 +20,22 @@ const dummyAddresses = [
 
 const AddressManager = () => {
   const [addresses, setAddresses] = useState(dummyAddresses);
+  const [editing, setEditing] = useState(null);
 
   const handleDelete = (id) => {
-    const updated = addresses.filter((addr) => addr.id !== id);
-    setAddresses(updated);
+    setAddresses(addresses.filter((addr) => addr.id !== id));
+  };
+
+  const handleSave = (formData) => {
+    if (editing) {
+      // Update existing
+      setAddresses(addresses.map(addr => (addr.id === editing.id ? { ...addr, ...formData } : addr)));
+    } else {
+      // Add new
+      const newAddress = { ...formData, id: Date.now() };
+      setAddresses([...addresses, newAddress]);
+    }
+    setEditing(null);
   };
 
   return (
@@ -39,16 +52,26 @@ const AddressManager = () => {
               <span className="inline-block mt-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{addr.type}</span>
             </div>
             <div className="space-x-2">
-              <button className="text-blue-600 hover:underline">Edit</button>
+              <button className="text-blue-600 hover:underline" onClick={() => setEditing(addr)}>Edit</button>
               <button className="text-red-600 hover:underline" onClick={() => handleDelete(addr.id)}>Delete</button>
             </div>
           </div>
         </div>
       ))}
 
-      <button className="mt-6 bg-green-700 text-white px-5 py-2 rounded hover:bg-green-800">
+      <button className="mt-6 bg-green-700 text-white px-5 py-2 rounded hover:bg-green-800" onClick={() => setEditing({})}>
         + Add New Address
       </button>
+
+      {editing && (
+        <div className="mt-6">
+          <AddressForm
+            initialData={editing.id ? editing : null}
+            onSave={handleSave}
+            onCancel={() => setEditing(null)}
+          />
+        </div>
+      )}
     </div>
   );
 };

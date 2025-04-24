@@ -22,6 +22,11 @@ import Wishlist from "./components/user/sections/Wishlist";
 import FAQ from "./components/user/sections/FAQ";
 import CustomerSetup from "./components/pages/user/CustomerSetup";
 import FarmerSetup from "./components/pages/farmer/FarmerSetup";
+import ProfileInfo from "./components/user/sections/ProfileInfo";
+import AddressManager from "./components/user/sections/AddressManager";
+import PanCardInfo from "./components/user/sections/PancardInfo";
+import SavedUpi from "./components/user/sections/SavedUpi";
+import SavedCards from "./components/user/sections/SavedCards";
 
 // Reusable layout with Navbar
 const LayoutWithNavbar = () => (
@@ -33,6 +38,7 @@ const LayoutWithNavbar = () => (
 
 const AppRoutes = () => {
   return (
+    
     <Routes>
       {/* All routes that need Navbar go inside this layout */}
       <Route element={<LayoutWithNavbar />}>
@@ -46,14 +52,21 @@ const AppRoutes = () => {
         <Route path="/farmer-setup" element={<FarmerSetup />} />
         <Route path="/customer-setup" element={<CustomerSetup />} />
         <Route path="/product/:name" element={<ProductDetails />} />
-
-        {/* Nested user routes */}
         <Route path="user-profile" element={<UserProfile />}>
-          <Route path="viewed" element={<ViewedProducts />} />
-          <Route path="orders" element={<OrderHistory />} />
-          <Route path="wishlist" element={<Wishlist />} />
-          <Route path="faq" element={<FAQ />} />
+            <Route index element={<ProfileInfo />} />
+            <Route path="orders" element={<OrderHistory />} />
+            <Route path="addresses" element={<AddressManager />} />
+            <Route path="pan" element={<PanCardInfo />} />
+            {/* <Route path="giftcards" element={<GiftCards />} /> */}
+            <Route path="upi" element={<SavedUpi />} />
+            <Route path="cards" element={<SavedCards />} />
+            {/* <Route path="coupons" element={<MyCoupons />} /> */}
+            {/* <Route path="reviews" element={<ReviewsAndRatings />} /> */}
+            {/* <Route path="notifications" element={<Notifications />} /> */}
+            <Route path="wishlist" element={<Wishlist />} />
         </Route>
+
+
       </Route>
 
       {/* Routes without Navbar if any (admin?) */}

@@ -5,13 +5,20 @@ import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
 import { GiFarmTractor } from "react-icons/gi";
 import { HiOutlineSupport } from "react-icons/hi";
 import { BiStore } from "react-icons/bi";
+import { useAuth } from "../auth/AuthContext";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { isLoggedIn } = useAuth();
+
 const onUserClick = ()=>{
-  navigate('/login')
+  if (isLoggedIn) {
+    navigate("/user-profile");
+  } else {
+    navigate("/login");
+  }
 }
   useEffect(() => {
     const trimmed = searchQuery.trim();

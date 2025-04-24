@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useAuth } from "./AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { login } = useAuth();
+
 
   // const onSubmit = async (data) => {
   //   try {
@@ -35,11 +38,12 @@ const Login = () => {
     const { email, password } = data;
 
     if (email === "user@mail.com" && password === "123") {
-      navigate('/')
-      toast.success("Successful");
+      login(); 
+      navigate('/');
+      toast.success("Login successful!");
     } else {
       toast.error("Invalid credentials. Try user / 123");
-      navigate('/login')
+      navigate('/login');
     }
   };
 
