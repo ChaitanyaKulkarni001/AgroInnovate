@@ -33,9 +33,9 @@ const Navbar = () => {
       </Link>
 
       {/* Cart Button */}
-      <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+      {/* <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
         <FaShoppingCart className="text-lg" />
-      </Link>
+      </Link> */}
 
       {/* Search Bar (desktop) */}
       <div className="relative hidden md:flex w-1/3">

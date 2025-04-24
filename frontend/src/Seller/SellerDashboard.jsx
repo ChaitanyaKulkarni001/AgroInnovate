@@ -48,7 +48,7 @@ const SellerDashboard = () => {
         <div className="max-w-7xl mx-auto relative">
 
           {/* Header */}
-          <h1 className="text-4xl font-bold text-green-800 text-center mb-12 tracking-tight">
+          <h1 className="text-4xl font-bold  text-center mb-12 tracking-tight">
             Seller Dashboard
           </h1>
 

@@ -51,7 +51,7 @@ const Landing = () => {
       <section className="relative h-[50vh] md:h-[60vh] bg-green-50 flex items-center justify-center overflow-hidden shadow-inner rounded-b-xl border-b-4 border-green-200">
   {/* Background Image with Slow Zoom + Pan */}
   <div
-    className="absolute inset-0 bg-[url('/images/farm-bg.jpg')] bg-cover bg-center opacity-30 blur-sm scale-105"
+    className="absolute inset-0 bg-[url('src/Assets/Hero.jpg')] bg-cover bg-center opacity-90 blur-sm scale-105"
     style={{
       animation: 'zoomPan 30s ease-in-out infinite alternate',
       transformOrigin: 'center',
@@ -63,10 +63,20 @@ const Landing = () => {
 
   {/* Hero Content */}
   <div className="relative z-10 text-center px-4 max-w-2xl">
-    <h1 className="text-4xl md:text-5xl font-extrabold text-green-900 drop-shadow-lg leading-snug mb-3">
-      🌿 Step into the Future of Farming with <span className="text-green-700">FarmKart</span>
+    <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg leading-snug mb-3">
+      🌿 Step into the Future of Farming with <span className="bg-gradient-to-r from-purple-700 via-fuchsia-500 to-amber-700 bg-[length:200%_200%] bg-clip-text text-transparent animate-[gradient_5s_ease_infinite]">FarmKart</span>
+      <style>
+{`
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+`}
+</style>
+
     </h1>
-    <p className="text-lg md:text-xl text-green-800 font-medium mb-6 tracking-wide">
+    <p className="text-lg md:text-xl text-white font-medium mb-6 tracking-wide">
       Discover premium seeds, tools & supplies made for the modern Indian farmer.
     </p>
     <button
