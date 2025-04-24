@@ -7,7 +7,7 @@ import ProgressBar from "../../ProgressBar";
 import PersonalDetails from "../PersonalDetails"
 import ContactDetails from "../ContactDetails";
 // Hook for navigation
-import { submitFarmerData } from '../../../Axios' // Importing the API call function
+import { submitFarmerData } from '../../../../api' // Importing the API call function
 import { useNavigate } from 'react-router-dom'; 
 
 const FarmerSetup = () => {

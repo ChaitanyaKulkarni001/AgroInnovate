@@ -5,14 +5,14 @@ import ContactDetails from "../ContactDetails"
 import AddressDetails from "./AddressDetails";
 import PaymentDetails from "./PaymentDetails";
 import FinalPreferences from "./FinalPreferences";
-import { submitCustomerData } from '../../../Axios' // Importing the API call function
+import { submitCustomerData } from '../../../../api' // Importing the API call function
 import { useNavigate } from 'react-router-dom'; 
 
 const CustomerSetup = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
-  
+
   const handleNext = (data) => {
     setFormData((prev) => ({ ...prev, ...data }));
     setStep((prev) => prev + 1);

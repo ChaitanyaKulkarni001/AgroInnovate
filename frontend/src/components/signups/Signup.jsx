@@ -15,16 +15,21 @@ const Signup = () => {
 
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axiosInstance.post("/register", data);
-      toast.success("Signup successful!");
-      if (data.role === "Farmer") {
-        navigate("/farmer-setup");
-      } else if (data.role === "Customer") {
-        navigate("/customer-setup");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Signup failed. Please try again.");
+    // try {
+    //   const response = await axiosInstance.post("/register", data);
+    //   toast.success("Signup successful!");
+    //   if (data.role === "Farmer") {
+    //     navigate("/farmer-setup");
+    //   } else if (data.role === "Customer") {
+    //     navigate("/customer-setup");
+    //   }
+    // } catch (error) {
+    //   toast.error(error.response?.data?.message || "Signup failed. Please try again.");
+    // }
+    if (data.role === "Farmer") {
+      navigate("/farmer-setup");
+    } else if (data.role === "Customer") {
+      navigate("/customer-setup");
     }
   };
 
