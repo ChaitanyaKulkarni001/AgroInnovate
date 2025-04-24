@@ -10,6 +10,7 @@ import FinancialsAndPayments from './components/FinancialsAndPayments';
 import ProductAnalytics from './components/ProductAnalytics';
 import OrderManagement from './components/OrderManagement';
 import Settings from './components/Settings';
+import CurrentProducts from './components/CurrentProducts';
 
 const SellerDashboard = () => {
   const [activeComponent, setActiveComponent] = useState('addProduct');
@@ -17,6 +18,8 @@ const SellerDashboard = () => {
   // Component rendering logic
   const renderComponent = () => {
     switch (activeComponent) {
+      case 'CurrentProducts':
+        return <CurrentProducts/>
       case 'addProduct':
         return <AddProductForm />;
       case 'manageInventory':
@@ -34,7 +37,8 @@ const SellerDashboard = () => {
       case 'settings':
         return <Settings />; 
       default:
-        return <AddProductForm />;
+        return <CurrentProducts />;
+      
     }
   };
 

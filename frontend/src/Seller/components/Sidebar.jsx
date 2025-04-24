@@ -72,6 +72,14 @@ const Sidebar = ({ setActiveComponent }) => {
     <FaEdit /> <span>Settings</span>
   </button>
 </li>
+<li>
+  <button
+    onClick={() => setActiveComponent('CurrentProducts')}
+    className="flex items-center space-x-2 text-lg"
+  >
+    <FaEdit /> <span>CurrentProducts</span>
+  </button>
+</li>
         </ul>
       </nav>
     </div>
