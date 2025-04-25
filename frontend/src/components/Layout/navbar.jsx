@@ -55,6 +55,7 @@ const onUserClick = ()=>{
           placeholder="Search for products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }} // Remove right rounding
         />
         <button
           className="absolute right-0 top-0 bottom-0 px-4 py-2 bg-yellow-500 rounded-r-md text-white hover:bg-yellow-600 transition-all"
@@ -63,10 +64,12 @@ const onUserClick = ()=>{
               navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`, { replace: true });
             }
           }}
+          style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} // Remove left rounding
         >
           <FaSearch />
         </button>
       </div>
+
 
       {/* Links */}
       <nav className="flex gap-8 text-sm md:text-base">

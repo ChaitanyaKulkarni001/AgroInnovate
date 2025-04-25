@@ -48,7 +48,7 @@ const Signup = () => {
             <input
               type="text"
               id="name"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600"
+              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
               placeholder="John Doe"
               {...register("name", { required: "Name is required" })}
             />
@@ -63,7 +63,7 @@ const Signup = () => {
             <input
               type="email"
               id="email"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600"
+              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
               placeholder="example@farmkart.com"
               {...register("email", { required: "Email is required" })}
             />
@@ -78,9 +78,9 @@ const Signup = () => {
             <input
               type="password"
               id="password"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600"
+              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
               placeholder="••••••••"
-              {...register("password", { required: "Password is required", minLength: 6 })}
+              {...register("password", { required: "Password is required", minLength: {value: 6,message:"Minimum 6 characters"} })}
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
@@ -93,7 +93,7 @@ const Signup = () => {
             <input
               type="password"
               id="confirmPassword"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600"
+              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
               placeholder="••••••••"
               {...register("confirmPassword", {
                 required: "Please confirm password",
@@ -112,7 +112,7 @@ const Signup = () => {
             </label>
             <select
               id="role"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600"
+              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
               {...register("role", { required: "Please select a role" })}
             >
               <option value="">-- Choose a Role --</option>

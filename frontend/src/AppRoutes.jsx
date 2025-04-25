@@ -2,6 +2,7 @@
 import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./components/Layout/navbar";
+import Footer from "./components/Layout/Navbar/Footer";
 
 // Pages
 import Landing from "./landing";
@@ -33,12 +34,13 @@ const LayoutWithNavbar = () => (
   <>
     <Navbar />
     <Outlet />
+    <Footer/>
   </>
 );
 
 const AppRoutes = () => {
   return (
-    
+
     <Routes>
       {/* All routes that need Navbar go inside this layout */}
       <Route element={<LayoutWithNavbar />}>

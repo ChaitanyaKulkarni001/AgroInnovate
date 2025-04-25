@@ -105,7 +105,7 @@ const Login = () => {
                   id="email"
                   type="email"
                   placeholder="example@farmkart.com"
-                  className="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+                  className="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:outline-none"
                   {...register("email", { required: "Email is required" })}
                 />
                 {errors.email && (
