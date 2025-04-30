@@ -28,6 +28,18 @@ import AddressManager from "./components/user/sections/AddressManager";
 import PanCardInfo from "./components/user/sections/PancardInfo";
 import SavedUpi from "./components/user/sections/SavedUpi";
 import SavedCards from "./components/user/sections/SavedCards";
+import SellerProfile from "./components/pages/seller/SellerProfile";
+import Overview from "./components/pages/seller/sections/Overview";
+import AddProductForm from "./components/pages/seller/sections/AddProductForm";
+import ProductList from "./components/pages/seller/sections/ProductList";
+import Orders from "./components/pages/seller/sections/Orders";
+import Returns from "./components/pages/seller/sections/Returns";
+import Payments from "./components/pages/seller/sections/Payments";
+import BusinessInfo from "./components/pages/seller/sections/BusinessInfo";
+import BankDetails from "./components/pages/seller/sections/BankDetails";
+import GSTDetails from "./components/pages/seller/sections/GSTDetails";
+import Reports from "./components/pages/seller/sections/Reports";
+import CustomerMessages from "./components/pages/seller/sections/CustomerMessages";
 
 // Reusable layout with Navbar
 const LayoutWithNavbar = () => (
@@ -54,6 +66,21 @@ const AppRoutes = () => {
         <Route path="/farmer-setup" element={<FarmerSetup />} />
         <Route path="/customer-setup" element={<CustomerSetup />} />
         <Route path="/product/:name" element={<ProductDetails />} />
+        
+        <Route path="seller-profile" element={<SellerProfile />}>
+          <Route index element={<Overview/>}/>
+          <Route path="overview" element={<AddProductForm/>}/>
+          <Route path="add-product" element={<AddProductForm/>}/>
+          <Route path="products" element={<ProductList/>}/>
+          <Route path="orders" element={<Orders/>}/>
+          <Route path="returns" element={<Returns/>}/>
+          <Route path="payments" element={<Payments/>}/>
+          <Route path="business-info" element={<BusinessInfo/>}/>
+          <Route path="bank-details" element={<BankDetails/>}/>
+          <Route path="gst-details" element={<GSTDetails/>}/>
+          <Route path="reports" element={<Reports/>}/>
+          <Route path="messages" element={<CustomerMessages/>}/>
+        </Route>
         <Route path="user-profile" element={<UserProfile />}>
             <Route index element={<ProfileInfo />} />
             <Route path="orders" element={<OrderHistory />} />

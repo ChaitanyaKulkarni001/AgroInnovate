@@ -26,13 +26,14 @@ const FarmerSetup = () => {
 
   const handleSubmit = async() => {
     console.log("Final Submission:", formData);
-    try {
-      const response = await submitFarmerData(formData); // Calling API to submit data
-      console.log("Success:", response);
-      navigate('/login'); // Redirect to login page after success
-    } catch (error) {
-      console.error("Failed to submit:", error);
-    }
+    // try {
+    //   const response = await submitFarmerData(formData); // Calling API to submit data
+    //   console.log("Success:", response);
+    //   navigate('/login'); // Redirect to login page after success
+    // } catch (error) {
+    //   console.error("Failed to submit:", error);
+    // }
+    navigate('/login');
   };
 
   return (

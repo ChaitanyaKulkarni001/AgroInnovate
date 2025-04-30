@@ -7,9 +7,7 @@ import { AuthProvider } from './components/auth/AuthContext';
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
         <AppRoutes />
-      </BrowserRouter>
     </AuthProvider>
   );
 };

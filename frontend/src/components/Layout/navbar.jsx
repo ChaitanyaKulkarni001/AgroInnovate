@@ -11,11 +11,15 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userRole } = useAuth();
 
 const onUserClick = ()=>{
   if (isLoggedIn) {
-    navigate("/user-profile");
+    // if (userRole === "Farmer") {
+    //   navigate("/farmer-profile");
+    // } else if (userRole === "Customer") {
+    //   navigate("/customer-profile");
+    // }
   } else {
     navigate("/login");
   }
