@@ -67,10 +67,10 @@ class LoginView(APIView):
 
 
 
-# class CreateUserView(generics.CreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     permission_classes = [AllowAny]
+class CreateUserView(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
 # For Dynamic Dropdown for Country, state and city 
 class CountryListView(generics.ListAPIView):

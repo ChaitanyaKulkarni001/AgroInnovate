@@ -68,18 +68,18 @@ class CustomUser(AbstractUser):
 class FarmerProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='farmer_profile')
 
-    farm_name                     = models.CharField(max_length=255)
-    farm_size                     = models.DecimalField(max_digits=10, decimal_places=2)
-    farm_type                     = models.CharField(max_length=20,choices=[('Organic','Organic'), ('Conventional','Conventional')])
-    experience_years              = models.PositiveIntegerField()
+    farm_name                     = models.CharField(max_length=255,null=True,blank=True)
+    farm_size                     = models.DecimalField(max_digits=10, decimal_places=2,null=True,blank=True)
+    farm_type                     = models.CharField(max_length=20,choices=[('Organic','Organic'), ('Conventional','Conventional')],null=True,blank=True)
+    experience_years              = models.PositiveIntegerField(default=0,null=True,blank=True)
     business_registration_number  = models.CharField(max_length=50, blank=True, null=True)
    
-    bank_account_number           = models.CharField(max_length=20)
-    ifsc_code                     = models.CharField(max_length=11)
+    bank_account_number           = models.CharField(max_length=20,null=True,blank=True)
+    ifsc_code                     = models.CharField(max_length=11,null=True,blank=True)
     upi_id                        = models.CharField(max_length=50, blank=True, null=True)
     
-    id_proof         = models.FileField(upload_to='documents/id_proofs/')
-    ownership_proof  = models.FileField(upload_to='documents/ownership_proofs/')
+    id_proof         = models.FileField(upload_to='documents/id_proofs/',null=True,blank=True)
+    ownership_proof  = models.FileField(upload_to='documents/ownership_proofs/',null=True,blank=True)
     is_verified      = models.BooleanField(default=False)
     registration_date = models.DateTimeField(auto_now_add=True)
 
