@@ -212,3 +212,106 @@ class Product(models.Model):
         return f"{self.name} by {self.farmer.user.username}"
     
 
+
+
+
+
+class Order(models.Model):
+    # Unique order identifier
+    order_id = models.UUIDField(
+        primary_key=False,
+        default=uuid.uuid4,
+        editable=False,
+        unique=True
+    )
+
+    # Who is selling / fulfilling this order
+    farmer = models.ForeignKey(
+        'FarmerProfile',
+        on_delete=models.PROTECT,
+        related_name='orders_as_seller'
+    )
+
+    # Who places the order
+    customer = models.ForeignKey(
+        'CustomerProfile',
+        on_delete=models.PROTECT,
+        related_name='orders'
+    )
+
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    expected_delivery_date = models.DateField()
+
+    # Payment / order status
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('CONFIRMED', 'Confirmed'),
+        ('SHIPPED', 'Shipped'),
+        ('DELIVERED', 'Delivered'),
+        
+        ('CANCELED', 'Canceled'),
+    ]
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='PENDING'
+    )
+
+    PAYMENT_CHOICES = [
+        ('NOT_PAID', 'Not Paid'),
+        ('PAID', 'Paid'),
+        ('REFUNDED', 'Refunded'),
+    ]
+    payment_status = models.CharField(
+        max_length=10,
+        choices=PAYMENT_CHOICES,
+        default='NOT_PAID'
+    )
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.PROTECT,
+        related_name='orders'
+   )
+
+    # Totals
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # Optional: store shipping address here or link to an Address model
+    shipping_address = models.TextField()
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Order {self.order_id} by {self.customer}"
+
+    def update_total_amount(self):
+        """Recalculate total from order items."""
+        total = sum(item.line_total for item in self.items.all())
+        self.total_amount = total
+        self.save()
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.PROTECT
+    )
+    quantity = models.PositiveIntegerField(default=1)
+    # Snapshot of price at time of order
+    price_at_order = models.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        unique_together = ('order', 'product')
+
+    @property
+    def line_total(self):
+        return self.quantity * self.price_at_order
+
+    def __str__(self):
+        return f"{self.quantity} × {self.product.name}"
