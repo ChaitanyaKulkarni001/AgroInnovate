@@ -1,4 +1,4 @@
- // BecomeSeller.jsx
+  // BecomeSeller.jsx
 import React, { useState } from 'react';
 
 const BecomeSeller = () => {
