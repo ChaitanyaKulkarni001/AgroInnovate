@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { products as allProducts, categories } from "./data/Farmdata";
+import { products as allProducts, categories } from "../../data/Farmdata";
+ 
 import { ChevronDown, ChevronUp, X, TreeDeciduous, Sprout } from "lucide-react";
 
 const Products = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import { categories, products as dummyProducts } from "./data/Farmdata";
+import { categories, products as dummyProducts } from "../../data/Farmdata";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -64,7 +64,7 @@ const Landing = () => {
   {/* Hero Content */}
   <div className="relative z-10 text-center px-4 max-w-2xl">
     <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg leading-snug mb-3">
-      🌿 Step into the Future of Farming with <span className="bg-gradient-to-r from-purple-700 via-fuchsia-500 to-amber-700 bg-[length:200%_200%] bg-clip-text text-transparent animate-[gradient_5s_ease_infinite]">FarmKart</span>
+      🌿 Step into the Future of Farming with <span className="bg-gradient-to-r from-purple-700 via-fuchsia-500 to-amber-700 bg-[length:200%_200%] bg-clip-text text-transparent animate-[gradient_5s_ease_infinite]">AgroInnovate</span>
       <style>
 {`
 @keyframes gradient {

@@ -4,17 +4,30 @@ import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
 import { GiFarmTractor } from "react-icons/gi";
 import { HiOutlineSupport } from "react-icons/hi";
 import { BiStore } from "react-icons/bi";
+import { useAuth } from "../auth/AuthContext";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { isLoggedIn, userRole } = useAuth();
+
+  const onUserClick = () => {
+    if (isLoggedIn) {
+      // Future role-based routing
+      // if (userRole === "Farmer") {
+      //   navigate("/farmer-profile");
+      // } else if (userRole === "Customer") {
+      //   navigate("/customer-profile");
+      // }
+    } else {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     const trimmed = searchQuery.trim();
-
     if (trimmed !== "") {
-      // Live‑search into /products?search=…
       if (
         !location.pathname.startsWith("/products") ||
         !location.search.includes(trimmed)
@@ -31,11 +44,6 @@ const Navbar = () => {
         <GiFarmTractor className="text-4xl" />
         AgroKart
       </Link>
-
-      {/* Cart Button */}
-      {/* <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
-        <FaShoppingCart className="text-lg" />
-      </Link> */}
 
       {/* Search Bar (desktop) */}
       <div className="relative hidden md:flex w-1/3">
@@ -94,9 +102,10 @@ const Navbar = () => {
           </button>
         </div>
 
-        <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+        <button onClick={onUserClick} className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaUser className="text-lg" />
         </button>
+
         <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaShoppingCart className="text-lg" />
         </Link>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Sidebar = ({ setActiveComponent }) => {
   return (
-    <div className="w-64 bg-gray-800 text-white py-6 px-4">
+    <div className= "w-72 bg-white/80 backdrop-blur-md shadow-xl border-r border-gray-200 p-6">
       <h2 className="text-2xl font-semibold mb-8">Seller Dashboard</h2>
       <nav>
         <ul className="space-y-4">
