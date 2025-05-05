@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { products as allProducts, categories } from "../../data/Farmdata";
- 
 import { ChevronDown, ChevronUp, X, TreeDeciduous, Sprout } from "lucide-react";
 
 const Products = () => {
@@ -14,9 +12,60 @@ const Products = () => {
   const [maxPrice, setMaxPrice] = useState(100000);
   const [showCategory, setShowCategory] = useState(true);
   const [showPrice, setShowPrice] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Always filter from the full products list
-  const products = allProducts;
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/products/", {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // Extract unique categories from products
+        const uniqueCategories = [...new Set(data.map(product => product.category))]
+          .map(cat => ({ name: cat }));
+        
+        setCategories(uniqueCategories);
+        
+        // Transform API data to match frontend structure
+        const transformedProducts = data.map(product => ({
+          id: product.id,
+          name: product.name,
+          category: product.category,
+          price: `₹${product.discounted_price}`,
+          originalPrice: product.original_price,
+          images: [
+            product.image1 || "/images/default-product.jpg",
+            product.image2 || "/images/default-product.jpg"
+          ].filter(Boolean),
+          description: product.description,
+          quantity: product.quantity_available,
+          unit: product.unit
+        }));
+
+        setProducts(transformedProducts);
+        setLoading(false);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const knownCategories = categories.map(c => c.name);
 
@@ -34,6 +83,26 @@ const Products = () => {
     setMinPrice(0);
     setMaxPrice(100000);
   };
+
+  if (loading) {
+    return (
+      <div className="flex bg-green-50 min-h-screen justify-center items-center">
+        <div className="text-green-800 text-xl">Loading products...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex bg-green-50 min-h-screen justify-center items-center">
+        <div className="text-red-600 text-xl">
+          Error loading products: {error}
+          <br />
+          <small>Please check your backend server is running at http://127.0.0.1:8000</small>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex bg-green-50 min-h-screen">
@@ -112,16 +181,26 @@ const Products = () => {
 
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {filteredProducts.map((product, idx) => (
+            {filteredProducts.map((product) => (
               <Link
-                to={`/product/${encodeURIComponent(product.name)}`}
+                to={`/product/${product.id}`}
                 state={{ product }}
-                key={idx}
+                key={product.id}
                 className="bg-white p-4 shadow-lg rounded-xl hover:shadow-2xl transition block"
               >
-                <img src={product.images[0]} alt={product.name} className="h-32 w-full object-cover mb-3 rounded" />
+                <img 
+                  src={product.images[0]} 
+                  alt={product.name} 
+                  className="h-32 w-full object-cover mb-3 rounded"
+                  onError={(e) => {
+                    e.target.src = "/images/default-product.jpg";
+                  }}
+                />
                 <h4 className="font-bold text-gray-800">{product.name}</h4>
                 <p className="text-green-700">{product.price}</p>
+                {product.originalPrice && (
+                  <p className="text-sm text-gray-500 line-through">₹{product.originalPrice}</p>
+                )}
                 <button className="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-full text-sm">
                   View
                 </button>
@@ -129,7 +208,7 @@ const Products = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-green-800">No products found</p>
+          <p className="text-center text-green-800">No products found matching your criteria</p>
         )}
       </main>
     </div>
