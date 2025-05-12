@@ -33,14 +33,10 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # or SessionAuthentication…
     ],
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SIMPLE_JWT = {
@@ -55,6 +51,7 @@ AUTH_USER_MODEL = 'api.CustomUser'
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "rest_framework.authtoken",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -66,6 +63,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -73,7 +71,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -152,3 +149,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

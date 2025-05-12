@@ -21,7 +21,7 @@ urlpatterns = [
     # Customers
     path('customers/', CustomerListCreateAPIView.as_view(), name='customer-list-create'),
     path('customers/<int:pk>/', CustomerDetailAPIView.as_view(), name='customer-detail'),
-
+    path('customers/me/', CustomerMeAPIView.as_view(), name='customer-me'),      
 
     path('products/', ProductListAPIView.as_view(), name='product-list'),
     path('products/<int:pk>/', ProductDetailAPIView.as_view(), name='product-detail'),

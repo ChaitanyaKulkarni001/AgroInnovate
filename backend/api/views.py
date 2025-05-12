@@ -141,6 +141,7 @@ class ProductListAPIView(generics.ListAPIView):
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter  
+    permission_classes = [AllowAny]
 
 
 
@@ -202,3 +203,25 @@ class TopCategoriesView(APIView):
             'top_categories': categories
         })
         
+from django.shortcuts import get_object_or_404
+
+# class customerme(APIView):
+    # permission_classes = [IsAuthenticated]
+    # def get(self):
+    #     return self.request.user
+
+class CustomerMeAPIView(generics.RetrieveUpdateAPIView):
+    """
+    GET  /customers/me/    → return current user's CustomerProfile
+    PUT  /customers/me/    → update current user's CustomerProfile
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        print(request.user)
+        # 1) Grab the CustomerProfile for request.user (404 if missing)
+        # profile = get_object_or_404(CustomerProfile, user=request.user)
+        # 2) Serialize it
+        # serializer = CustomerProfileSerializer(profile)
+        # 3) Return the JSON
+        return Response(request.user.data)
