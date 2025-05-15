@@ -137,6 +137,7 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
 
 
 class ProductListAPIView(generics.ListAPIView):
+    permission_classes = [AllowAny]
     queryset = Product.objects.all().order_by('-created_at')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]

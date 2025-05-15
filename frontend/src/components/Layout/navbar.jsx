@@ -1,32 +1,39 @@
- // Navbar.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
 import { GiFarmTractor } from "react-icons/gi";
 import { HiOutlineSupport } from "react-icons/hi";
 import { BiStore } from "react-icons/bi";
+import { useAuth } from "../auth/AuthContext";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { isLoggedIn, userRole } = useAuth();
+
+  const onUserClick = () => {
+    if (isLoggedIn) {
+      // Future role-based routing
+      // if (userRole === "Farmer") {
+      //   navigate("/farmer-profile");
+      // } else if (userRole === "Customer") {
+      //   navigate("/customer-profile");
+      // }
+    } else {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     const trimmed = searchQuery.trim();
-
     if (trimmed !== "") {
-      // Live‑search into /products?search=…
       if (
         !location.pathname.startsWith("/products") ||
         !location.search.includes(trimmed)
       ) {
         navigate(`/products?search=${encodeURIComponent(trimmed)}`, { replace: true });
       }
-    } else {
-      // When input is cleared, and we're on /products, go back home
-      // if (location.pathname.startsWith("/products")) {
-      //   navigate("/", { replace: true });
-      // }
     }
   }, [searchQuery, location.pathname, location.search, navigate]);
 
@@ -95,12 +102,13 @@ const Navbar = () => {
           </button>
         </div>
 
-        <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+        <button onClick={onUserClick} className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaUser className="text-lg" />
         </button>
-        <button className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
+
+        <Link to="/cart" className="bg-white text-green-700 px-4 py-2 rounded-full hover:bg-green-100 transition-all">
           <FaShoppingCart className="text-lg" />
-        </button>
+        </Link>
       </div>
     </header>
   );
