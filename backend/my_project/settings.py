@@ -160,8 +160,8 @@ REST_FRAMEWORK = {
 
 
 # STRIPE
-STRIPE_TEST_PUBLISHABLE_KEY='pk_test_51RYoIL09wVjPUEUmPCwAiNLGbD0VQMFd2x3MGClwizga5t1SUVVsJGOUBe3zgY4ob0xiiYRJjvip7uPADMiZFSK500sZD4ywkj'
-STRIPE_TEST_SECRET_KEY='sk_test_51RYoIL09wVjPUEUm0QEKW3kP3QNT5oH1eSXdHUyqKTZPHJ6ReYaeRxGXyLzMBaIJDt4XDnS4ZkwiWAWOzBqlm17h00904ookbu'
+STRIPE_TEST_PUBLISHABLE_KEY='your api   '
+STRIPE_TEST_SECRET_KEY='your api here'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
