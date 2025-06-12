@@ -37,7 +37,7 @@ const Landing = () => {
   };
 
   const handleCategoryClick = (category) => {
-    history.push("/products", { category, products: dummyProducts });
+    history.push("/", { category, products: dummyProducts });
   };
 
   const handleExplore = () => {
