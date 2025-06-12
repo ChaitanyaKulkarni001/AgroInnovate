@@ -56,6 +56,7 @@ const Landing = () => {
           backgroundImage: `url(${img})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          width:'180vh', 
           height: '60vh',
           position: 'relative',
         }}

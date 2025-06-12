@@ -25,7 +25,7 @@ function NavBar() {
             <Navbar
                 expand="lg"
                 style={{
-                    background: 'linear-gradient(to right, #4CAF50, #8BC34A)',
+                    background: 'linear-gradient(to right,rgb(3, 76, 5), #8BC34A)',
                     borderBottom: '4px solid #3e8e41',
                     boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
                 }}
