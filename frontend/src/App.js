@@ -18,7 +18,7 @@ import OrdersListPage from './pages/OrdersListPage'
 import ProductCreatePage from './pages/ProductCreatePage'
 import ProductUpdatePage from './pages/ProductUpdatePage'
 import NotFound from './pages/NotFoundPage'
-
+import Landing from './landing/Landing'
 
 const App = () => {
 
@@ -30,7 +30,7 @@ const App = () => {
           <Switch>
 
             <Route path="/" component={ProductListPage} exact />
-                        <Route path="/" component={ProductListPage} exact />
+           <Route path="/landing" component={Landing} exact />
 
             <Route path="/new-product/" component={ProductCreatePage} exact />
             <Route path="/product/:id/" component={ProductDetailsPage} exact />
