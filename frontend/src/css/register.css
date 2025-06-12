@@ -1,0 +1,63 @@
+/* RegisterPage.css */
+
+.register-page-wrapper {
+  background-image: url('https://images.unsplash.com/photo-1617191514001-f0b4f1df5e36?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+}
+
+.register-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 0;
+}
+
+.register-form-container {
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  padding: 35px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(34, 139, 34, 0.2);
+  width: 100%;
+  max-width: 500px;
+}
+
+.register-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #2e7d32;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.input-field {
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.register-button {
+  width: 100%;
+  background-color: #4caf50;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #388e3c;
+}

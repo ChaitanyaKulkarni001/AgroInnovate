@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
+ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkTokenValidation, getAllOrders, logout } from '../actions/userActions'
 import { useHistory } from 'react-router-dom'
-import { Table, Spinner } from 'react-bootstrap'
+import { Table, Spinner, Container } from 'react-bootstrap'
 import { dateCheck } from '../components/GetDate'
 import { changeDeliveryStatus } from '../actions/productActions'
 import { CHANGE_DELIVERY_STATUS_RESET } from '../constants'
 import SearchBarForOrdersPage from '../components/SearchBarForOrdersPage'
 import Message from '../components/Message'
 
-
 function OrdersListPage() {
-
     let history = useHistory()
     const dispatch = useDispatch()
     const placeholderValue = "Search orders by Customer Name, Address or by Ordered Item"
@@ -22,19 +20,15 @@ function OrdersListPage() {
     const [idOfchangeDeliveryStatus, setIdOfchangeDeliveryStatus] = useState(0)
     const [cloneSearchTerm, setCloneSearchTerm] = useState("")
 
-    // login reducer
     const userLoginReducer = useSelector(state => state.userLoginReducer)
     const { userInfo } = userLoginReducer
 
-    // get all orders reducer
     const getAllOrdersReducer = useSelector(state => state.getAllOrdersReducer)
     const { orders, loading: loadingOrders } = getAllOrdersReducer
 
-    // change delivery status reducer
     const changeDeliveryStatusReducer = useSelector(state => state.changeDeliveryStatusReducer)
     const { success: deliveryStatusChangeSuccess, loading: deliveryStatusChangeSpinner } = changeDeliveryStatusReducer
 
-    // check token validation reducer
     const checkTokenValidationReducer = useSelector(state => state.checkTokenValidationReducer)
     const { error: tokenError } = checkTokenValidationReducer
 
@@ -65,9 +59,7 @@ function OrdersListPage() {
 
     if (deliveryStatusChangeSuccess) {
         alert("Delivery status changed successfully")
-        dispatch({
-            type: CHANGE_DELIVERY_STATUS_RESET
-        })
+        dispatch({ type: CHANGE_DELIVERY_STATUS_RESET })
         dispatch(getAllOrders())
     }
 
@@ -75,108 +67,69 @@ function OrdersListPage() {
         setCloneSearchTerm(term)
     };
 
-
     return (
-        <div>
-            {loadingOrders && <span style={{ display: "flex" }}>
-                <h5>Getting Orders</h5>
-                <span className="ml-2">
-                    <Spinner animation="border" />
-                </span>
-            </span>}
-            {userInfo.admin && <SearchBarForOrdersPage handleSearchTerm={handleSearchTerm} placeholderValue={placeholderValue} />}
+        <div style={{ backgroundColor: '#f0fdf4', minHeight: '100vh', padding: '2rem', fontFamily: 'Segoe UI, sans-serif' }}>
+            <Container>
+                <h3 className="text-success text-center mb-4">Order Management</h3>
+                {loadingOrders && <div className="d-flex align-items-center mb-3">
+                    <h5 className="mb-0 text-success">Getting Orders</h5>
+                    <Spinner animation="border" variant="success" className="ml-3" />
+                </div>}
+                {userInfo.admin && <SearchBarForOrdersPage handleSearchTerm={handleSearchTerm} placeholderValue={placeholderValue} />}
                 {orders.length > 0 ?
-                <Table className="mt-2" striped bordered>
-                    <thead>
-                        <tr className="p-3 bg-info text-white text-center">
-                            <th>Order Id</th>
-                            <th>Customer Name</th>
-                            <th>Card Used</th>
-                            <th>Delivery Address</th>
-                            <th>Ordered Item</th>
-                            <th>Paid Status</th>
-                            <th>Paid On</th>
-                            <th>Total Amount</th>
-                            <th>Delivered Status</th>
-                            <th>Delivered On</th>
-                            {userInfo.admin &&
-                                <th>Delivery Status</th>
-                            }
-                        </tr>
-                    </thead>
-
-                    {/* filter orders by name, address or ordered item */}
-
-                    {orders.filter((item) => (
-
-                        item.name.toLowerCase().includes(cloneSearchTerm)
-                        ||
-                        item.ordered_item.toLowerCase().includes(cloneSearchTerm)
-                        ||
-                        item.address.toLowerCase().includes(cloneSearchTerm)
-                    )
-
-                    ).map((order, idx) => (
-                        <tbody key={idx}>
-                            <tr className="text-center">
-                                <td>
-                                    {order.id}
-                                </td>
-                                <td>{order.name}</td>
-                                <td>{order.card_number}</td>
-                                <td>{order.address}</td>
-                                <td>{order.ordered_item}</td>
-                                <td>{order.paid_status ?
-                                    <i className="fas fa-check-circle text-success"></i>
-                                    :
-                                    <i className="fas fa-times-circle text-danger"></i>
-                                }</td>
-                                <td>{dateCheck(order.paid_at)}</td>
-                                <td>{order.total_price} INR</td>
-                                <td>{order.is_delivered ?
-                                    <i className="fas fa-check-circle text-success"></i>
-                                    :
-                                    <i className="fas fa-times-circle text-danger"></i>
-                                }</td>
-                                <td>{order.delivered_at}</td>
-                                {userInfo.admin &&
-                                    <td>
-                                        {order.is_delivered ?
-                                            <button
-                                                className="btn btn-outline-danger btn-sm"
-                                                onClick={() => changeDeliveryStatusHandler(order.id, false)}
-                                            >
-                                                {deliveryStatusChangeSpinner
-                                                    &&
-                                                    idOfchangeDeliveryStatus === order.id
-                                                    ?
-                                                    <Spinner animation="border" />
-                                                    :
-                                                    "Mark as Undelivered"}
-                                            </button>
-                                            :
-                                            <button
-                                                className="btn btn-outline-primary btn-sm"
-                                                onClick={() => changeDeliveryStatusHandler(order.id, true)}
-                                            >
-                                                {deliveryStatusChangeSpinner
-                                                    &&
-                                                    idOfchangeDeliveryStatus === order.id
-                                                    ?
-                                                    <Spinner animation="border" />
-                                                    :
-                                                    "Mark as delivered"}
-                                            </button>
-                                        }
-                                    </td>
-                                }
-                            </tr>
-                        </tbody>
-                    ))}
-                </Table>
-                : <Message variant="info">No orders yet.</Message> }
+                    <div className="table-responsive mt-3">
+                        <Table bordered hover responsive className="text-center bg-white shadow-sm rounded">
+                            <thead className="bg-success text-white">
+                                <tr>
+                                    <th>Order Id</th>
+                                    <th>Customer Name</th>
+                                    <th>Card Used</th>
+                                    <th>Delivery Address</th>
+                                    <th>Ordered Item</th>
+                                    <th>Paid Status</th>
+                                    <th>Paid On</th>
+                                    <th>Total Amount</th>
+                                    <th>Delivered Status</th>
+                                    <th>Delivered On</th>
+                                    {userInfo.admin && <th>Action</th>}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.filter((item) => (
+                                    item.name.toLowerCase().includes(cloneSearchTerm) ||
+                                    item.ordered_item.toLowerCase().includes(cloneSearchTerm) ||
+                                    item.address.toLowerCase().includes(cloneSearchTerm)
+                                )).map((order, idx) => (
+                                    <tr key={idx}>
+                                        <td>{order.id}</td>
+                                        <td>{order.name}</td>
+                                        <td>{order.card_number}</td>
+                                        <td>{order.address}</td>
+                                        <td>{order.ordered_item}</td>
+                                        <td>{order.paid_status ? <i className="fas fa-check-circle text-success"></i> : <i className="fas fa-times-circle text-danger"></i>}</td>
+                                        <td>{dateCheck(order.paid_at)}</td>
+                                        <td>{order.total_price} INR</td>
+                                        <td>{order.is_delivered ? <i className="fas fa-check-circle text-success"></i> : <i className="fas fa-times-circle text-danger"></i>}</td>
+                                        <td>{order.delivered_at}</td>
+                                        {userInfo.admin && <td>
+                                            {order.is_delivered ?
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => changeDeliveryStatusHandler(order.id, false)}>
+                                                    {deliveryStatusChangeSpinner && idOfchangeDeliveryStatus === order.id ? <Spinner animation="border" size="sm" /> : "Mark Undelivered"}
+                                                </button>
+                                                :
+                                                <button className="btn btn-outline-success btn-sm" onClick={() => changeDeliveryStatusHandler(order.id, true)}>
+                                                    {deliveryStatusChangeSpinner && idOfchangeDeliveryStatus === order.id ? <Spinner animation="border" size="sm" /> : "Mark Delivered"}
+                                                </button>}
+                                        </td>}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
+                    : <Message variant="info">No orders yet.</Message>}
+            </Container>
         </div>
     )
 }
 
-export default OrdersListPage
+export default OrdersListPage;

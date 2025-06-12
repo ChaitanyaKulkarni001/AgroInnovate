@@ -28,7 +28,10 @@ const App = () => {
         <NavBar />
         <div className="container mt-4">
           <Switch>
+
             <Route path="/" component={ProductListPage} exact />
+                        <Route path="/" component={ProductListPage} exact />
+
             <Route path="/new-product/" component={ProductCreatePage} exact />
             <Route path="/product/:id/" component={ProductDetailsPage} exact />
             <Route path="/product-update/:id/" component={ProductUpdatePage} exact />

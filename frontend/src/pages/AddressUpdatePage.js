@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
+ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Form, Button, Card } from 'react-bootstrap'
+import { Form, Button, Card, Row, Col, Spinner } from 'react-bootstrap'
 import { checkTokenValidation, getAllAddress, getSingleAddress, logout, updateUserAddress } from '../actions/userActions'
 import { useHistory } from 'react-router-dom'
 import { UPDATE_USER_ADDRESS_RESET } from '../constants'
-
+import { FaMapMarkerAlt, FaSave, FaArrowLeft } from 'react-icons/fa'
 
 const AddressUpdatePage = ({ match }) => {
-
-    let history = useHistory()
+    const history = useHistory()
     const dispatch = useDispatch()
 
     const [name, setName] = useState("")
@@ -19,19 +18,15 @@ const AddressUpdatePage = ({ match }) => {
     const [city, setCity] = useState("")
     const [state, setState] = useState("")
 
-    // login reducer
     const userLoginReducer = useSelector(state => state.userLoginReducer)
     const { userInfo } = userLoginReducer
 
-    // check token validation reducer
     const checkTokenValidationReducer = useSelector(state => state.checkTokenValidationReducer)
     const { error: tokenError } = checkTokenValidationReducer
 
-    // get single address reducer    
     const getSingleAddressReducer = useSelector(state => state.getSingleAddressReducer)
     const { address, error: errorFetchingAddress } = getSingleAddressReducer
 
-    // get single address reducer    
     const updateUserAddressReducer = useSelector(state => state.updateUserAddressReducer)
     const { success: addressUpdateSuccess } = updateUserAddressReducer
 
@@ -44,7 +39,6 @@ const AddressUpdatePage = ({ match }) => {
         }
     }, [dispatch, history, userInfo, match])
 
-    // token validation check
     if (userInfo && tokenError === "Request failed with status code 401") {
         alert("Session expired, please login again.")
         dispatch(logout())
@@ -55,158 +49,138 @@ const AddressUpdatePage = ({ match }) => {
     const addressSubmitHandler = (e) => {
         e.preventDefault()
         const updatedAddress = {
-            "name": name,
-            "phone_number": phoneNumber,
-            "pin_code": pinCode,
-            "house_no": houseNumber,
-            "landmark": landmark,
-            "city": city,
-            "state": state,
+            name,
+            phone_number: phoneNumber,
+            pin_code: pinCode,
+            house_no: houseNumber,
+            landmark,
+            city,
+            state,
         }
         dispatch(updateUserAddress(match.params.id, updatedAddress))
     }
 
-    if(addressUpdateSuccess) {
+    if (addressUpdateSuccess) {
         alert("Address updated successfully.")
-        dispatch({
-            type: UPDATE_USER_ADDRESS_RESET
-        })
+        dispatch({ type: UPDATE_USER_ADDRESS_RESET })
         history.push("/all-addresses/")
         dispatch(getAllAddress())
     }
 
     return (
-        <div>
-            <p className="text-center text-info"><em>Update Address</em></p>
-            {errorFetchingAddress && <h3>Invalid Address Request</h3>}
-            <Card
-                className="mx-auto mb-4"
-                style={{ width: "50%", border: "1px solid", borderColor: "#C6ACE7" }}
-            >
-                <Card.Body>
-                    <Form onSubmit={addressSubmitHandler}>
+        <Row className="justify-content-md-center mt-4">
+            <Col xs={12} md={8} lg={6}>
+                <Card className="shadow rounded p-4 border-0">
+                    <Card.Body>
+                        <div className="text-center mb-4">
+                            <FaMapMarkerAlt size={28} className="text-info mb-2" />
+                            <h4 className="fw-bold">Update Address</h4>
+                        </div>
 
-                        <Form.Group controlId='name'>
-                            <Form.Label>
-                                Name
-                            </Form.Label>
-                            <Form.Control
-                                autoFocus={true}
-                                type="text"
-                                placeholder="enter your name"
-                                defaultValue={address ? address.name : ""}
-                                onChange={(e) => setName(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                        {errorFetchingAddress && (
+                            <h5 className="text-danger text-center">Invalid Address Request</h5>
+                        )}
 
-                        <Form.Group controlId='phoneNumber'>
-                            <Form.Label>
-                                Phone Number
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="phone number"
-                                pattern="[0-9]+"
-                                maxLength="10"
-                                defaultValue={address ? address.phone_number : ""}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                        {!address ? (
+                            <div className="text-center">
+                                <Spinner animation="border" variant="primary" />
+                            </div>
+                        ) : (
+                            <Form onSubmit={addressSubmitHandler}>
+                                <Form.Group className="mb-3" controlId='name'>
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control
+                                        autoFocus
+                                        type="text"
+                                        placeholder="Enter your name"
+                                        defaultValue={address.name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId='pinCode'>
-                            <Form.Label>
-                                Pin Code
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="pin code"
-                                defaultValue={address ? address.pin_code : ""}
-                                pattern="[0-9]+"
-                                maxLength="6"
-                                onChange={(e) => setPinCode(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                                <Form.Group className="mb-3" controlId='phoneNumber'>
+                                    <Form.Label>Phone Number</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Phone number"
+                                        pattern="[0-9]+"
+                                        maxLength="10"
+                                        defaultValue={address.phone_number}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId='houseNumber'>
-                            <Form.Label>
-                                House No./Address
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="house number"
-                                defaultValue={address ? address.house_no : ""}
-                                onChange={(e) => setHouseNumber(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                                <Form.Group className="mb-3" controlId='pinCode'>
+                                    <Form.Label>Pin Code</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Pin code"
+                                        pattern="[0-9]+"
+                                        maxLength="6"
+                                        defaultValue={address.pin_code}
+                                        onChange={(e) => setPinCode(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId='landmark'>
-                            <Form.Label>
-                                Landmark
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="landmark"
-                                defaultValue={address ? address.landmark : ""}
-                                onChange={(e) => setLandmark(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                                <Form.Group className="mb-3" controlId='houseNumber'>
+                                    <Form.Label>House No. / Address</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="House number or flat"
+                                        defaultValue={address.house_no}
+                                        onChange={(e) => setHouseNumber(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId='city'>
-                            <Form.Label>
-                                City
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="city"
-                                defaultValue={address ? address.city : ""}
-                                onChange={(e) => setCity(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                                <Form.Group className="mb-3" controlId='landmark'>
+                                    <Form.Label>Landmark</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Nearby landmark"
+                                        defaultValue={address.landmark}
+                                        onChange={(e) => setLandmark(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId='state'>
-                            <Form.Label>
-                                State
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="state"
-                                defaultValue={address ? address.state : ""}
-                                onChange={(e) => setState(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
+                                <Form.Group className="mb-3" controlId='city'>
+                                    <Form.Label>City</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="City"
+                                        defaultValue={address.city}
+                                        onChange={(e) => setCity(e.target.value)}
+                                    />
+                                </Form.Group>
 
+                                <Form.Group className="mb-4" controlId='state'>
+                                    <Form.Label>State</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="State"
+                                        defaultValue={address.state}
+                                        onChange={(e) => setState(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                        <Button
-                            style={{ width: "100%" }}
-                            className="btn-sm"
-                            type="submit"
-                            variant="success"
-                        >
-                            Save Changes
-                        </Button>
+                                <div className="d-flex flex-column gap-2">
+                                    <Button type="submit" variant="success" className="d-flex align-items-center justify-content-center gap-2">
+                                        <FaSave /> Save Changes
+                                    </Button>
 
-                        <Button
-                            style={{ width: "100%" }}
-                            className="btn-sm mt-2"
-                            variant="primary"
-                            onClick={() => history.push("/all-addresses/")}
-                        >
-                            Cancel
-                        </Button>
-
-
-                    </Form>
-
-                </Card.Body>
-            </Card>
-        </div >
+                                    <Button
+                                        variant="outline-primary"
+                                        onClick={() => history.push("/all-addresses/")}
+                                        className="d-flex align-items-center justify-content-center gap-2"
+                                    >
+                                        <FaArrowLeft /> Cancel
+                                    </Button>
+                                </div>
+                            </Form>
+                        )}
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
     )
 }
 

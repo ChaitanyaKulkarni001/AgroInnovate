@@ -1,29 +1,21 @@
-import React, { useEffect } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+ import React, { useEffect } from 'react'
+import { Container, Row, Col, Spinner, Card, Button } from 'react-bootstrap'
+import { Link, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userDetails, logout, checkTokenValidation } from '../actions/userActions'
-//import { UPDATE_USER_ACCOUNT_RESET } from '../constants'
 import Message from '../components/Message'
-import { Spinner } from 'react-bootstrap'
-import {useHistory} from 'react-router-dom'
-
+import { FaUserCircle, FaEnvelope, FaUserShield, FaEdit, FaTrash } from 'react-icons/fa'
 
 function AccountPage() {
-
-
-    let history = useHistory()
+    const history = useHistory()
     const dispatch = useDispatch()
 
-    // check token validation reducer
     const checkTokenValidationReducer = useSelector(state => state.checkTokenValidationReducer)
     const { error: tokenError } = checkTokenValidationReducer
 
-    // login reducer
     const userLoginReducer = useSelector(state => state.userLoginReducer)
     const { userInfo } = userLoginReducer
 
-    // user details reducer
     const userDetailsReducer = useSelector(state => state.userDetailsReducer)
     const { user: userAccDetails, loading } = userDetailsReducer
 
@@ -40,9 +32,8 @@ function AccountPage() {
         }
     }, [history, userInfo, dispatch])
 
-    // logout
     const logoutHandler = () => {
-        dispatch(logout()) // action
+        dispatch(logout())
     }
 
     if (userInfo && tokenError === "Request failed with status code 401") {
@@ -50,47 +41,83 @@ function AccountPage() {
         dispatch(logout())
         history.push("/login")
         window.location.reload()
-      }
+    }
 
     const renderData = () => {
         try {
-
             return (
-                <div>
-                    {loading && <span style = {{ display: "flex" }}><h5>Getting User Information</h5><span className = "ml-2"><Spinner animation="border" /></span></span>}
-                    <Container>
-                        <Row className="mr-6 mb-2 border border-dark">
-                            <Col xs={2} className="p-3 bg-info text-white">Name:</Col>
-                            <Col className="p-3">{userAccDetails.username}</Col>
-                        </Row>
-                        <Row className="mb-2 border border-dark">
-                            <Col xs={2} className="p-3 bg-info text-white">Email:</Col>
-                            <Col className="p-3">{userAccDetails.email}</Col>
-                        </Row>
-                        <Row className="mb-2 border border-dark">
-                            <Col xs={2} className="p-3 bg-info text-white">Admin Privileges:</Col>
-                            <Col className="p-3">{userAccDetails.admin ? "Yes" : "No"}</Col>
-                        </Row>
-                    </Container>
-                    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Link to={`/account/update`}>Update Account details</Link>
-                        <span className="ml-1 text-primary">| </span>
-                        <span className="ml-1"></span>
+                <Container className="py-5">
+                    <Card className="shadow-lg border-0 rounded-4 overflow-hidden">
+                        <Card.Header
+                            className="text-white text-center py-4"
+                            style={{
+                                background: 'linear-gradient(to right, #2f9e44, #43c067)',
+                                borderBottom: 'none'
+                            }}
+                        >
+                            <FaUserCircle size={40} className="mb-2" />
+                            <h3 className="mb-0">My Account</h3>
+                            <p className="mb-0">Welcome, {userAccDetails?.username || 'Farmer'}!</p>
+                        </Card.Header>
+                        <Card.Body className="bg-light">
+                            {loading ? (
+                                <div className="d-flex align-items-center justify-content-center">
+                                    <h5 className="text-muted">Loading...</h5>
+                                    <Spinner animation="border" variant="success" className="ml-3" />
+                                </div>
+                            ) : (
+                                <div className="px-2 px-md-5">
+                                    <Row className="py-3 border-bottom">
+                                        <Col xs={12} md={4} className="text-muted fw-bold">
+                                            <FaUserCircle className="me-2 text-success" />
+                                            Username:
+                                        </Col>
+                                        <Col>{userAccDetails.username}</Col>
+                                    </Row>
+                                    <Row className="py-3 border-bottom">
+                                        <Col xs={12} md={4} className="text-muted fw-bold">
+                                            <FaEnvelope className="me-2 text-success" />
+                                            Email:
+                                        </Col>
+                                        <Col>{userAccDetails.email}</Col>
+                                    </Row>
+                                    <Row className="py-3 border-bottom">
+                                        <Col xs={12} md={4} className="text-muted fw-bold">
+                                            <FaUserShield className="me-2 text-success" />
+                                            Admin Access:
+                                        </Col>
+                                        <Col>{userAccDetails.admin ? "Yes ✅" : "No ❌"}</Col>
+                                    </Row>
 
-                        <Link to={`/account/delete/`}>Delete Account</Link>
-                    </span>
-                </div>
+                                    <div className="d-flex justify-content-center mt-4 gap-3 flex-wrap">
+                                        <Link to={`/account/update`}>
+                                            <Button variant="success" className="d-flex align-items-center gap-2 px-4 rounded-pill shadow-sm">
+                                                <FaEdit /> Update Info
+                                            </Button>
+                                        </Link>
+                                        <Link to={`/account/delete/`}>
+                                            <Button variant="outline-danger" className="d-flex align-items-center gap-2 px-4 rounded-pill shadow-sm">
+                                                <FaTrash /> Delete Account
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            )}
+                        </Card.Body>
+                    </Card>
+                </Container>
             )
         } catch (error) {
-            return <Message variant='danger'>Something went wrong, go back to <Link
-                onClick={logoutHandler} to={`/login`}
-            > Login</Link> page.</Message>
+            return (
+                <Message variant='danger'>
+                    Something went wrong. Go back to{" "}
+                    <Link onClick={logoutHandler} to={`/login`}>Login</Link> page.
+                </Message>
+            )
         }
     }
 
-
     return renderData()
-
 }
 
 export default AccountPage
