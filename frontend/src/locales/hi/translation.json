@@ -1,0 +1,19 @@
+{
+  "all_products": "सभी उत्पाद",
+  "add_product": "उत्पाद जोड़ें",
+  "language": "भाषा",
+  "english": "English",
+  "hindi": "हिंदी",
+  "marathi": "मराठी",
+  "account_settings": "खाता सेटिंग्स",
+  "address_settings": "पता सेटिंग्स",
+  "card_settings": "कार्ड सेटिंग्स",
+  "all_orders": "सभी ऑर्डर",
+  "logout": "लॉगआउट",
+  "login": "लॉगिन",
+  "search_products": "उत्पाद खोजें...",
+  "search": "खोजें",
+  
+  "nothing_to_show": "दिखाने के लिए कुछ नहीं",
+  "getting_products": "उत्पाद लाया जा रहा है"
+}

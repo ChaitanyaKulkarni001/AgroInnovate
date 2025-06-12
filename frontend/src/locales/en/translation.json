@@ -1,0 +1,18 @@
+{
+ "all_products": "All Products",
+  "add_product": "Add Product",
+  "language": "Language",
+  "english": "English",
+  "hindi": "हिंदी",
+  "marathi": "मराठी",
+  "account_settings": "Account Settings",
+  "address_settings": "Address Settings",
+  "card_settings": "Card Settings",
+  "all_orders": "All Orders",
+  "logout": "Logout",
+  "login": "Login",
+  "search_products": "Search products...",
+  "search": "Search",
+  "nothing_to_show": "Nothing to show",
+  "getting_products": "Getting Products"
+ }
