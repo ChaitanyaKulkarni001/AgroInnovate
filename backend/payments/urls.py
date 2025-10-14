@@ -4,8 +4,10 @@ from payments import views
 
 urlpatterns = [
     path('test-payment/', views.TestStripeImplementation.as_view()),
+    path('validate-promo/', views.ValidatePromoCodeView.as_view()),
     path('create-card/', views.CreateCardTokenView.as_view()),
     path('charge-customer/', views.ChargeCustomerView.as_view()),
+    path('mock-razorpay-order/', views.CreateMockRazorpayOrderView.as_view()),
     path('update-card/', views.CardUpdateView.as_view()),    
     path('delete-card/', views.DeleteCardView.as_view()),    
     path('card-details/', views.RetrieveCardView.as_view()),

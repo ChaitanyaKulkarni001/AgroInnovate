@@ -18,7 +18,9 @@ function LoginPage({ history }) {
 
     useEffect(() => {
         if (userInfo) {
-            history.push('/') // homepage
+            const role = userInfo.role || (userInfo.user && userInfo.user.role)
+            if (role === 'FARMER') history.push('/farmer')
+            else history.push('/buyer')
         }
     }, [history, userInfo])
 
@@ -28,12 +30,12 @@ function LoginPage({ history }) {
     }
 
     return (
-        <div>
+        <div className="max-w-xl mx-auto p-4">
             <Row className='justify-content-md-center'>
-                <Col xs={12} md={6}>                    
-                    <h1>Sign In</h1>                    
+                <Col xs={12} md={12}>                    
+                    <h1 className="text-2xl font-semibold mb-3">Sign In</h1>                    
                     {error && <Message variant='danger'>{error}</Message>}
-                    <Form onSubmit={submitHandler}>
+                    <Form onSubmit={submitHandler} className="space-y-3">
                         <Form.Group controlId='username'>
                             <Form.Label>
                                 Username
@@ -60,7 +62,7 @@ function LoginPage({ history }) {
                             </Form.Control>
                         </Form.Group>
 
-                        <Button type="submit" variant='primary'>Sign In</Button>
+                        <Button type="submit" variant='primary' className="w-full">Sign In</Button>
                     </Form>
 
                     <Row className="py-3">

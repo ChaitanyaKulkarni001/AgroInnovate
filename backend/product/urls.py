@@ -8,4 +8,5 @@ urlpatterns = [
     path('product-create/', views.ProductCreateView.as_view(), name="product-create"),
     path('product-update/<str:pk>/', views.ProductEditView.as_view(), name="product-update"),
     path('product-delete/<str:pk>/', views.ProductDeleteView.as_view(), name="product-delete"),
+    path('harvest-advice/', views.HarvestAdviceView.as_view(), name="harvest-advice"),
 ]

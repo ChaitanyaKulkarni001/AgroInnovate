@@ -30,6 +30,8 @@ import {
     deleteUserAddressReducer,
     getAllOrdersReducer,
 } from "./userReducers";
+import { compareReducer } from "./compareReducer";
+import { cartReducer } from "./cartReducer";
 
 const allReducers = combineReducers({
     productsListReducer,
@@ -55,6 +57,8 @@ const allReducers = combineReducers({
     userDetailsReducer,
     userDetailsUpdateReducer,
     deleteUserAccountReducer,
+    compareReducer,
+    cartReducer,
 })
 
 

@@ -1,10 +1,10 @@
 // src/pages/ProductsListPage.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsList } from '../actions/productActions';
 import Message from '../components/Message';
-import { Spinner, Row, Col } from 'react-bootstrap';
+import { Spinner, Row, Col, Form, Button } from 'react-bootstrap';
 import Product from '../components/Product';
 import { useHistory } from 'react-router-dom';
 import { CREATE_PRODUCT_RESET } from '../constants';
@@ -14,6 +14,11 @@ function ProductsListPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { t } = useTranslation();
+
+  const [category, setCategory] = useState('');
+  const [cropType, setCropType] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   // Extract searchTerm from URL query string
   let searchTerm = history.location.search; // e.g. "?search=abc"
@@ -59,12 +64,43 @@ function ProductsListPage() {
     );
   }, [products, searchLower]);
 
+  const applyFilters = (e) => {
+    e && e.preventDefault();
+    dispatch(getProductsList({
+      category: category || undefined,
+      crop_type: cropType || undefined,
+      min_price: minPrice || undefined,
+      max_price: maxPrice || undefined,
+      search: searchLower || undefined,
+    }));
+  };
+
   return (
     <div
       className="container py-4"
       style={{ backgroundColor: '#e6f5e6', minHeight: '100vh' }}
     >
       {error && <Message variant="danger">{error}</Message>}
+
+      <div className="mb-3 p-3 bg-white border rounded shadow-sm">
+        <Form onSubmit={applyFilters} className="row g-2">
+          <div className="col-sm-3">
+            <Form.Control placeholder="Category" value={category} onChange={(e)=>setCategory(e.target.value)} />
+          </div>
+          <div className="col-sm-3">
+            <Form.Control placeholder="Crop Type" value={cropType} onChange={(e)=>setCropType(e.target.value)} />
+          </div>
+          <div className="col-sm-2">
+            <Form.Control placeholder="Min Price" value={minPrice} onChange={(e)=>setMinPrice(e.target.value)} />
+          </div>
+          <div className="col-sm-2">
+            <Form.Control placeholder="Max Price" value={maxPrice} onChange={(e)=>setMaxPrice(e.target.value)} />
+          </div>
+          <div className="col-sm-2">
+            <Button type="submit" variant="success" style={{ width: '100%' }}>Apply</Button>
+          </div>
+        </Form>
+      </div>
 
       {loading && (
         <div className="d-flex align-items-center mb-4">
@@ -81,8 +117,7 @@ function ProductsListPage() {
           : filteredProducts.map((product) => (
               <Col key={product.id ?? product._id} sm={12} md={6} lg={4} xl={3}>
                 <div
-                  className="p-3 bg-light rounded shadow-sm border border-success h-100"
-                  style={{ backgroundColor: '#fafff5' }}
+                  className="p-3 bg-white rounded shadow-sm border border-green-200 h-100"
                 >
                   <Product product={product} />
                 </div>

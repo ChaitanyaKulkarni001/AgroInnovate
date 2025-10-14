@@ -19,6 +19,14 @@ import ProductCreatePage from './pages/ProductCreatePage'
 import ProductUpdatePage from './pages/ProductUpdatePage'
 import NotFound from './pages/NotFoundPage'
 import Landing from './landing/Landing'
+import ComparePage from './pages/ComparePage'
+import CartPage from './pages/CartPage'
+import ProtectedRoute from './components/ProtectedRoute'
+import FarmerDashboard from './pages/FarmerDashboard'
+import BuyerDashboard from './pages/BuyerDashboard'
+import HarvestCalendarPage from './pages/HarvestCalendarPage'
+import BuyerLoginPage from './pages/BuyerLoginPage'
+import FarmerLoginPage from './pages/FarmerLoginPage'
 
 const App = () => {
 
@@ -31,6 +39,11 @@ const App = () => {
 
             <Route path="/" component={ProductListPage} exact />
            <Route path="/landing" component={Landing} exact />
+           <Route path="/compare" component={ComparePage} exact />
+           <Route path="/cart" component={CartPage} exact />
+           <ProtectedRoute path="/farmer" roles={["FARMER"]} component={FarmerDashboard} exact />
+           <ProtectedRoute path="/buyer" roles={["BUYER"]} component={BuyerDashboard} exact />
+           <ProtectedRoute path="/harvest-calendar" roles={["FARMER"]} component={HarvestCalendarPage} exact />
 
             <Route path="/new-product/" component={ProductCreatePage} exact />
             <Route path="/product/:id/" component={ProductDetailsPage} exact />
@@ -38,6 +51,8 @@ const App = () => {
             <Route path="/product/:id/checkout/" component={CheckoutPage} exact />
             <Route path="/payment-status" component={PaymentStatus} exact />
             <Route path="/login" component={Login} exact />
+            <Route path="/login/buyer" component={BuyerLoginPage} exact />
+            <Route path="/login/farmer" component={FarmerLoginPage} exact />
             <Route path="/register" component={Register} exact />
             <Route path="/account" component={AccountPage} exact />
             <Route path="/account/update/" component={AccountUpdatePage} exact />

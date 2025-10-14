@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Spinner, Form, Button, Card } from 'react-bootstrap'
+import { Spinner, Form, Button, Card, InputGroup } from 'react-bootstrap'
 import { chargeCustomer } from '../actions/cardActions'
 import { Link, useHistory } from "react-router-dom";
 import { getSingleAddress } from '../actions/userActions'
 import Message from './Message'
+import axios from 'axios'
+import FakeRazorpayModal from './FakeRazorpayModal'
 
 
 const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelected }) => {
@@ -12,9 +14,9 @@ const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelecte
     let history = useHistory()
     const dispatch = useDispatch()
 
-    // create card reducer
+    // create card reducer (may be undefined if not using saved card)
     const createCardReducer = useSelector(state => state.createCardReducer)
-    const { cardData } = createCardReducer
+    const { cardData } = createCardReducer || {}
 
     // charge card reducer
     const chargeCardReducer = useSelector(state => state.chargeCardReducer)
@@ -24,25 +26,63 @@ const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelecte
     const getSingleAddressReducer = useSelector(state => state.getSingleAddressReducer)
     const { address } = getSingleAddressReducer
 
+    const [promoCode, setPromoCode] = useState('')
+    const [promoApplied, setPromoApplied] = useState(null)
+    const [promoError, setPromoError] = useState('')
+    const [showRazorpay, setShowRazorpay] = useState(false)
+
     useEffect(() => {
         dispatch(getSingleAddress(selectedAddressId))
     }, [dispatch, match, selectedAddressId])
 
-    // charge card handler
-    const onSubmit = (e) => {
-        e.preventDefault()
+    const applyPromo = async () => {
+        setPromoError('')
+        try {
+            const { data } = await axios.post('/payments/validate-promo/', { code: promoCode })
+            if (data.valid) {
+                setPromoApplied(data)
+            } else {
+                setPromoApplied(null)
+                setPromoError('Invalid promo code')
+            }
+        } catch (e) {
+            setPromoApplied(null)
+            setPromoError('Failed to validate promo')
+        }
+    }
+
+    const computePayable = () => {
+        const base = Number(product.price)
+        const discount = promoApplied ? (base * (promoApplied.discount_percent || 0) / 100) : 0
+        return Math.max(0, base - discount)
+    }
+
+    const openRazorpay = async () => {
+        try { await axios.post('/payments/mock-razorpay-order/', { amount: computePayable() }) } catch {}
+        setShowRazorpay(true)
+    }
+
+    const onRazorpayResult = (success) => {
+        setShowRazorpay(false)
+        if (success) {
+            submitPayment()
+        }
+    }
+
+    // charge card handler (simulate payment)
+    const submitPayment = () => {
         const address_detail = `${address.house_no}, near ${address.landmark}, ${address.city}, 
         ${address.state}, ${address.pin_code}`
         const data = {
-            "email": cardData.email,
-            "source": cardData.id,
-            "amount": product.price,
+            "email": (cardData && cardData.email) || undefined,
+            "source": (cardData && cardData.id) || undefined,
+            "amount": computePayable(),
             "name": address.name,
-            "card_number": cardData.card_data.last4,
+            "card_number": (cardData && cardData.card_data && cardData.card_data.last4) || '0000',
             "address": address_detail,
             "ordered_item": product.name,
             "paid_status": true,
-            "total_price": product.price,
+            "total_price": computePayable(),
             "is_delivered": false,
             "delivered_at": "Not Delivered",
         }
@@ -63,10 +103,17 @@ const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelecte
             <span className="text-info">
                 <h5>Confirm payment</h5>
             </span>
-            <div className="mb-2">
-                Using Card: XXXX XXXX XXXX {cardData.card_data.last4}
-            </div>
-            <Form onSubmit={onSubmit}>
+
+            <InputGroup className="mb-2">
+                <Form.Control placeholder='Promo code' value={promoCode} onChange={(e)=>setPromoCode(e.target.value)} />
+                <Button variant='outline-success' onClick={applyPromo}>Apply</Button>
+            </InputGroup>
+            {promoApplied && <div className='text-success small'>Applied {promoApplied.code}: {promoApplied.discount_percent}% off</div>}
+            {promoError && <div className='text-danger small'>{promoError}</div>}
+
+            <div className='mb-2'><strong>Payable:</strong> ₹{computePayable()}</div>
+
+            <Form onSubmit={(e)=>{e.preventDefault(); openRazorpay();}}>
 
                 {chargingStatus ?
                     <Button variant="primary" disabled style={{ width: "100%" }}>
@@ -81,7 +128,7 @@ const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelecte
                     </Button>
                     :
                     <Button variant="primary" type="submit" style={{ width: "100%" }}>
-                        Pay ₹{product.price}
+                        Pay with Razorpay (Demo)
                     </Button>
                 }
             </Form>
@@ -110,6 +157,7 @@ const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelecte
             </Card>
             <Link to="#" onClick={() => window.location.reload()}>Select a different card to pay</Link>
 
+            <FakeRazorpayModal open={showRazorpay} amount={computePayable()} onClose={()=>setShowRazorpay(false)} onConfirm={onRazorpayResult} />
         </div >
     )
 }

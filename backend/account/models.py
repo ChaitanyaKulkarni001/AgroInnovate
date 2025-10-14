@@ -47,3 +47,63 @@ class OrderModel(models.Model):
     is_delivered = models.BooleanField(default=False)
     delivered_at = models.CharField(max_length=200, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True) 
+
+    # New fields for order tracking/status flow
+    ORDER_STATUS_CHOICES = (
+        ("PENDING", "Pending"),
+        ("PROCESSING", "Processing"),
+        ("SHIPPED", "Shipped"),
+        ("DELIVERED", "Delivered"),
+        ("CANCELLED", "Cancelled"),
+        ("FAILED", "Failed"),
+    )
+    status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default="PENDING")
+    tracking_id = models.CharField(max_length=64, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Optional link to promo code (defined in payments app)
+    promo_code = models.ForeignKey(
+        'payments.PromoCode', on_delete=models.SET_NULL, null=True, blank=True, related_name='orders'
+    )
+
+    def __str__(self):
+        return f"Order {self.id} - {self.name} - {self.status}"
+
+
+# User profile with role to distinguish farmer and buyer
+class Profile(models.Model):
+    ROLE_CHOICES = (
+        ("FARMER", "Farmer"),
+        ("BUYER", "Buyer"),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="BUYER")
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    address_line = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=120, null=True, blank=True)
+    state = models.CharField(max_length=120, null=True, blank=True)
+    pincode = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.role})"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey('product.Product', on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.name} x{self.quantity}"
+
+
+class OrderStatusHistory(models.Model):
+    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='status_history')
+    status = models.CharField(max_length=20)
+    note = models.CharField(max_length=255, blank=True, null=True)
+    changed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order {self.order_id}: {self.status} @ {self.changed_at}"

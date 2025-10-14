@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { checkTokenValidation, getAllOrders, logout } from '../actions/userActions'
 import { useHistory } from 'react-router-dom'
-import { Table, Spinner, Container } from 'react-bootstrap'
+import { Table, Spinner, Container, Form, Button, Badge } from 'react-bootstrap'
 import { dateCheck } from '../components/GetDate'
 import { changeDeliveryStatus } from '../actions/productActions'
 import { CHANGE_DELIVERY_STATUS_RESET } from '../constants'
@@ -19,6 +19,8 @@ function OrdersListPage() {
     const [currentDateInfo] = useState(todays_date)
     const [idOfchangeDeliveryStatus, setIdOfchangeDeliveryStatus] = useState(0)
     const [cloneSearchTerm, setCloneSearchTerm] = useState("")
+    const [nextStatus, setNextStatus] = useState('')
+    const [note, setNote] = useState('')
 
     const userLoginReducer = useSelector(state => state.userLoginReducer)
     const { userInfo } = userLoginReducer
@@ -48,11 +50,13 @@ function OrdersListPage() {
         window.location.reload()
     }
 
-    const changeDeliveryStatusHandler = (id, status) => {
+    const changeDeliveryStatusHandler = (id, status, statusText) => {
         setIdOfchangeDeliveryStatus(id)
         const productData = {
             "is_delivered": status,
-            "delivered_at": status ? currentDateInfo : "Not Delivered"
+            "delivered_at": status ? currentDateInfo : "Not Delivered",
+            "status": statusText || undefined,
+            "note": note || undefined,
         }
         dispatch(changeDeliveryStatus(id, productData))
     }
@@ -89,9 +93,9 @@ function OrdersListPage() {
                                     <th>Paid Status</th>
                                     <th>Paid On</th>
                                     <th>Total Amount</th>
-                                    <th>Delivered Status</th>
+                                    <th>Status</th>
                                     <th>Delivered On</th>
-                                    {userInfo.admin && <th>Action</th>}
+                                    {userInfo.admin && <th>Update Status</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,17 +113,26 @@ function OrdersListPage() {
                                         <td>{order.paid_status ? <i className="fas fa-check-circle text-success"></i> : <i className="fas fa-times-circle text-danger"></i>}</td>
                                         <td>{dateCheck(order.paid_at)}</td>
                                         <td>{order.total_price} INR</td>
-                                        <td>{order.is_delivered ? <i className="fas fa-check-circle text-success"></i> : <i className="fas fa-times-circle text-danger"></i>}</td>
+                                        <td>
+                                            <Badge variant={order.status === 'DELIVERED' ? 'success' : order.status === 'SHIPPED' ? 'info' : 'secondary'}>{order.status}</Badge>
+                                        </td>
                                         <td>{order.delivered_at}</td>
                                         {userInfo.admin && <td>
-                                            {order.is_delivered ?
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => changeDeliveryStatusHandler(order.id, false)}>
-                                                    {deliveryStatusChangeSpinner && idOfchangeDeliveryStatus === order.id ? <Spinner animation="border" size="sm" /> : "Mark Undelivered"}
-                                                </button>
-                                                :
-                                                <button className="btn btn-outline-success btn-sm" onClick={() => changeDeliveryStatusHandler(order.id, true)}>
-                                                    {deliveryStatusChangeSpinner && idOfchangeDeliveryStatus === order.id ? <Spinner animation="border" size="sm" /> : "Mark Delivered"}
-                                                </button>}
+                                            <div className="d-flex align-items-center gap-2">
+                                                <Form.Control as="select" size="sm" value={nextStatus} onChange={(e)=>setNextStatus(e.target.value)}>
+                                                    <option value="">Select</option>
+                                                    <option value="PENDING">Pending</option>
+                                                    <option value="PROCESSING">Processing</option>
+                                                    <option value="SHIPPED">Shipped</option>
+                                                    <option value="DELIVERED">Delivered</option>
+                                                    <option value="CANCELLED">Cancelled</option>
+                                                    <option value="FAILED">Failed</option>
+                                                </Form.Control>
+                                                <Form.Control size="sm" placeholder="Note (optional)" value={note} onChange={(e)=>setNote(e.target.value)} />
+                                                <Button className="btn btn-outline-success btn-sm" onClick={() => changeDeliveryStatusHandler(order.id, nextStatus === 'DELIVERED', nextStatus)}>
+                                                    {deliveryStatusChangeSpinner && idOfchangeDeliveryStatus === order.id ? <Spinner animation="border" size="sm" /> : "Update"}
+                                                </Button>
+                                            </div>
                                         </td>}
                                     </tr>
                                 ))}

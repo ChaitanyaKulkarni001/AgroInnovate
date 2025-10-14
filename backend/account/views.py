@@ -1,4 +1,4 @@
-from .models import StripeModel, BillingAddress, OrderModel
+from .models import StripeModel, BillingAddress, OrderModel, Profile, OrderStatusHistory
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -11,6 +11,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView # for login page
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from .serializers import (
     UserSerializer, 
     UserRegisterTokenSerializer, 
@@ -28,6 +29,7 @@ class UserRegisterView(APIView):
         data = request.data # holds username and password (in dictionary)
         username = data["username"]
         email = data["email"]
+        role = data.get("role", "BUYER")
 
         if username == "" or email == "":
             return Response({"detial": "username or email cannot be empty"}, status=status.HTTP_400_BAD_REQUEST)
@@ -48,6 +50,18 @@ class UserRegisterView(APIView):
                     email=email,
                     password=make_password(data["password"]),
                 )
+                # create profile with role
+                try:
+                    profile = Profile.objects.create(user=user, role=role if role in ["FARMER", "BUYER"] else "BUYER")
+                    # optional fields
+                    profile.phone_number = data.get('phone_number')
+                    profile.address_line = data.get('address_line')
+                    profile.city = data.get('city')
+                    profile.state = data.get('state')
+                    profile.pincode = data.get('pincode')
+                    profile.save()
+                except Exception:
+                    pass
                 serializer = UserRegisterTokenSerializer(user, many=False)
                 return Response(serializer.data)
 
@@ -275,8 +289,17 @@ class ChangeOrderStatus(APIView):
 
         # only update this
         order.is_delivered = data["is_delivered"]
-        order.delivered_at = data["delivered_at"]
+        order.delivered_at = data.get("delivered_at", order.delivered_at)
+        next_status = data.get("status")
+        if next_status:
+            order.status = next_status
         order.save()
+
+        # record status history
+        try:
+            OrderStatusHistory.objects.create(order=order, status=order.status, note=data.get("note"))
+        except Exception:
+            pass
         
         
         serializer = AllOrdersListSerializer(order, many=False)

@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from account.models import StripeModel, OrderModel
+from .models import PromoCode, Transaction
 
 
 def generate_customer_id():
@@ -59,6 +60,24 @@ class TestStripeImplementation(APIView):
             # you can add more fields if needed
         }
         return Response(data=test_payment_process, status=status.HTTP_200_OK)
+
+
+class ValidatePromoCodeView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        code = request.data.get('code')
+        if not code:
+            return Response({"detail": "Code is required"}, status=status.HTTP_400_BAD_REQUEST)
+        promo = PromoCode.objects.filter(code__iexact=code).first()
+        if not promo or not promo.is_valid_now():
+            return Response({"valid": False}, status=status.HTTP_200_OK)
+        return Response({
+            "valid": True,
+            "discount_percent": promo.discount_percent,
+            "code": promo.code,
+            "description": promo.description
+        }, status=status.HTTP_200_OK)
 
 
 class CheckTokenValidation(APIView):
@@ -202,26 +221,22 @@ class ChargeCustomerView(APIView):
         data = request.data
         print ("request user ",request.user)
         # Required fields: email, amount, name, card_number, address, ordered_item, paid_status, total_price, is_delivered, delivered_at
-        required = ["email", "amount", "name", "card_number", "address", "ordered_item", "paid_status", "total_price", "is_delivered", "delivered_at"]
+        required = ["amount", "name", "address", "ordered_item", "total_price"]
         missing = [f for f in required if f not in data]
         if missing:
-            email = request.user.email
-            # return Response({"detail": f"Missing fields: {', '.join(missing)}"},
-            #                 status=status.HTTP_400_BAD_REQUEST)
+            pass
 
-        # email = data["email"]
-        card_number = str(data["card_number"]).strip()
+        email = data.get("email") or getattr(request.user, 'email', None) or "demo@example.com"
+        card_number = str(data.get("card_number", "0000000000000000")).strip()
         last4 = card_number[-4:] if len(card_number) >= 4 else None
 
-        # Find a saved card for this user/email matching last4. If not found, we could still allow charging an unsaved card?
-        # For simulation, require saved card for safety:
+        # For demo, allow payment without saved card
+        customer_id = f"demo_{uuid.uuid4().hex}"
         try:
             stripe_obj = StripeModel.objects.get(user=request.user, email=email, card_number__endswith=last4)
+            customer_id = stripe_obj.customer_id
         except StripeModel.DoesNotExist:
-            return Response({"detail": "No saved card found matching this number for this user/email."},
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        customer_id = stripe_obj.customer_id
+            pass
 
         # Simulate charge: always succeed.
         charge_id = f"ch_{uuid.uuid4().hex}"
@@ -238,16 +253,28 @@ class ChargeCustomerView(APIView):
                 card_number=card_number,
                 address=data["address"],
                 ordered_item=data["ordered_item"],
-                paid_status=data["paid_status"],
+                paid_status=True,
                 paid_at=datetime.now(),
                 total_price=data["total_price"],
-                is_delivered=data["is_delivered"],
-                delivered_at=data["delivered_at"],
+                is_delivered=False,
+                delivered_at="",
                 user=request.user
             )
         except Exception as e:
             return Response({"detail": "Order saving failed: " + str(e)},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # Save transaction entry (mocked Razorpay)
+        Transaction.objects.create(
+            user=request.user,
+            order=new_order,
+            amount=new_order.total_price or amount_value,
+            currency='INR',
+            provider='razorpay',
+            provider_payment_id=charge_id,
+            status='SUCCESS',
+            notes=f"Simulated payment for order {new_order.id}"
+        )
 
         # Return a response similar to Stripe success
         return Response(
@@ -260,6 +287,23 @@ class ChargeCustomerView(APIView):
             },
             status=status.HTTP_200_OK
         )
+
+
+class CreateMockRazorpayOrderView(APIView):
+    """
+    Create a mock Razorpay order and return order_id to frontend for demo UI.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        amount = request.data.get('amount', 0)
+        order_id = f"order_{uuid.uuid4().hex}"
+        return Response({
+            "id": order_id,
+            "amount": amount,
+            "currency": "INR",
+            "status": "created"
+        }, status=status.HTTP_200_OK)
 
 
 class RetrieveCardView(APIView):

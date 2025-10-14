@@ -61,6 +61,21 @@ function NavBar() {
                   <i className="fas fa-seedling"></i> {t('all_products')}
                 </Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/compare">
+                <Nav.Link className="mx-2">
+                  <i className="fas fa-balance-scale"></i> Compare
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/cart">
+                <Nav.Link className="mx-2">
+                  <i className="fas fa-shopping-cart"></i> Cart
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/harvest-calendar">
+                <Nav.Link className="mx-2">
+                  <i className="fas fa-calendar-alt"></i> Harvest Calendar
+                </Nav.Link>
+              </LinkContainer>
 
               {userInfo && userInfo.admin && (
                 <LinkContainer to="/new-product/">
@@ -140,11 +155,18 @@ function NavBar() {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link className="mx-2">
-                    <i className="fas fa-sign-in-alt"></i> {t('login')}
-                  </Nav.Link>
-                </LinkContainer>
+                <>
+                  <LinkContainer to="/login">
+                    <Nav.Link className="mx-2">
+                      <i className="fas fa-sign-in-alt"></i> {t('login')}
+                    </Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to="/register">
+                    <Nav.Link className="mx-2">
+                      <i className="fas fa-user-plus"></i> Register
+                    </Nav.Link>
+                  </LinkContainer>
+                </>
               )}
             </Nav>
           </Navbar.Collapse>

@@ -12,6 +12,13 @@ function RegisterPage({ history, variant }) {
     const [confirmPassword, setConfirmPassword] = useState("")
     const [message, setMessage] = useState("")
 
+    const [role, setRole] = useState('BUYER')
+    const [phone, setPhone] = useState('')
+    const [address, setAddress] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
+    const [pincode, setPincode] = useState('')
+
     const dispatch = useDispatch()
 
     // reducer
@@ -20,7 +27,9 @@ function RegisterPage({ history, variant }) {
 
     useEffect(() => {
         if (userInfo) {
-            history.push('/') // homepage
+            const r = userInfo.role || (userInfo.user && userInfo.user.role)
+            if (r === 'FARMER') history.push('/farmer')
+            else history.push('/buyer')
         }
     }, [history, userInfo])
 
@@ -29,18 +38,25 @@ function RegisterPage({ history, variant }) {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match!')
         } else {
-            dispatch(register(username, email, password))
+            dispatch(register(username, email, password, {
+                role,
+                phone_number: phone,
+                address_line: address,
+                city,
+                state,
+                pincode,
+            }))
         }
     }
 
     return (
-        <div>
+        <div className="max-w-xl mx-auto p-4">
             <Row className='justify-content-md-center'>
-                <Col xs={12} md={6}>
+                <Col xs={12} md={12}>
                     <h1>Sign Up</h1>
                     {message && <Message variant='danger'>{message}</Message>}
                     {error && <Message variant='danger'>{error}</Message>}
-                    <Form onSubmit={submitHandler}>
+                    <Form onSubmit={submitHandler} className="space-y-3">
 
                         <Form.Group controlId='name'>
                             <Form.Label>
@@ -68,6 +84,35 @@ function RegisterPage({ history, variant }) {
                                 onChange={(e) => setEmail(e.target.value)}
                             >
                             </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group controlId='role'>
+                            <Form.Label>Role</Form.Label>
+                            <Form.Control as='select' value={role} onChange={(e)=>setRole(e.target.value)}>
+                                <option value='BUYER'>Buyer</option>
+                                <option value='FARMER'>Farmer</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group controlId='phone'>
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder='optional' />
+                        </Form.Group>
+                        <Form.Group controlId='address'>
+                            <Form.Label>Address</Form.Label>
+                            <Form.Control value={address} onChange={(e)=>setAddress(e.target.value)} placeholder='optional' />
+                        </Form.Group>
+                        <Form.Group controlId='city'>
+                            <Form.Label>City</Form.Label>
+                            <Form.Control value={city} onChange={(e)=>setCity(e.target.value)} placeholder='optional' />
+                        </Form.Group>
+                        <Form.Group controlId='state'>
+                            <Form.Label>State</Form.Label>
+                            <Form.Control value={state} onChange={(e)=>setState(e.target.value)} placeholder='optional' />
+                        </Form.Group>
+                        <Form.Group controlId='pincode'>
+                            <Form.Label>Pincode</Form.Label>
+                            <Form.Control value={pincode} onChange={(e)=>setPincode(e.target.value)} placeholder='optional' />
                         </Form.Group>
 
                         <Form.Group controlId='password'>
@@ -98,7 +143,7 @@ function RegisterPage({ history, variant }) {
                             </Form.Control>
                         </Form.Group>
 
-                        <Button type="submit" variant='primary'>Sign Up</Button>
+                        <Button type="submit" variant='primary' className='w-full'>Sign Up</Button>
                     </Form>
 
                     <Row className="py-3">

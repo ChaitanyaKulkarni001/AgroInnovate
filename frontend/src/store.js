@@ -6,9 +6,13 @@ import allReducers from './reducers/index'
 const middleware = [thunk]
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+const compareFromStorage = localStorage.getItem('compareItems') ? JSON.parse(localStorage.getItem('compareItems')) : []
+const cartFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 
 let initialState = {
-    userLoginReducer: { userInfo: userInfoFromStorage }
+    userLoginReducer: { userInfo: userInfoFromStorage },
+    compareReducer: { items: compareFromStorage },
+    cartReducer: { items: cartFromStorage },
 }
 
 const store = createStore(allReducers, initialState, composeWithDevTools(applyMiddleware(...middleware)))
