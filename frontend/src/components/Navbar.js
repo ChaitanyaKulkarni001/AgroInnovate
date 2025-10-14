@@ -14,6 +14,7 @@ function NavBar() {
   const history = useHistory();
   const { t, i18n } = useTranslation();
 
+
   const userLoginReducer = useSelector((state) => state.userLoginReducer);
   const { userInfo } = userLoginReducer;
 
@@ -34,20 +35,21 @@ function NavBar() {
   const currentLang = i18n.language || 'en';
 
   return (
-    <header>
+    <header style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
       <Navbar
         expand="lg"
         style={{
           background: 'linear-gradient(to right,rgb(3, 76, 5), #8BC34A)',
-          borderBottom: '4px solid #3e8e41',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+          borderBottom: '3px solid #3e8e41',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          padding: '0.75rem 0',
+          margin: 0
         }}
         variant="dark"
-        className="py-3"
       >
-        <Container>
+        <div style={{ maxWidth: '1400px', width: '100%', margin: '0 auto', padding: '0 1rem' }}>
           <LinkContainer to="/">
-            <Navbar.Brand style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+            <Navbar.Brand style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>
               <i className="fas fa-tractor mr-2"></i> AgroCart
             </Navbar.Brand>
           </LinkContainer>
@@ -57,66 +59,58 @@ function NavBar() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto align-items-center">
               <LinkContainer to="/">
-                <Nav.Link className="mx-2">
+                <Nav.Link className="mx-1" style={{ fontSize: '0.95rem' }}>
                   <i className="fas fa-seedling"></i> {t('all_products')}
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/compare">
-                <Nav.Link className="mx-2">
+                <Nav.Link className="mx-1" style={{ fontSize: '0.95rem' }}>
                   <i className="fas fa-balance-scale"></i> Compare
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/cart">
-                <Nav.Link className="mx-2">
+                <Nav.Link className="mx-1" style={{ fontSize: '0.95rem' }}>
                   <i className="fas fa-shopping-cart"></i> Cart
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/harvest-calendar">
-                <Nav.Link className="mx-2">
-                  <i className="fas fa-calendar-alt"></i> Harvest Calendar
+                <Nav.Link className="mx-1" style={{ fontSize: '0.95rem' }}>
+                  <i className="fas fa-calendar-alt"></i> Calendar
                 </Nav.Link>
               </LinkContainer>
 
               {userInfo && userInfo.admin && (
                 <LinkContainer to="/new-product/">
-                  <Nav.Link className="mx-2">
+                  <Nav.Link className="mx-1" style={{ fontSize: '0.95rem' }}>
                     <i className="fas fa-plus-circle"></i> {t('add_product')}
                   </Nav.Link>
                 </LinkContainer>
               )}
 
-              <div className="mx-2" style={{ width: '300px' }}>
+              <div className="mx-2" style={{ width: '250px' }}>
                 <SearchBarForProducts />
               </div>
             </Nav>
 
             <Nav className="align-items-center">
-              {/* Language selector: using NavDropdown */}
-              <NavDropdown
-                title={t('language')}
-                id="language-dropdown"
-                align="end"
-                className="mx-2"
-              >
-                <NavDropdown.Item
-                  active={currentLang === 'en'}
-                  onClick={() => changeLanguage('en')}
-                >
-                  {t('english')}
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  active={currentLang === 'hi'}
-                  onClick={() => changeLanguage('hi')}
-                >
-                  {t('hindi')}
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  active={currentLang === 'mr'}
-                  onClick={() => changeLanguage('mr')}
-                >
-                  {t('marathi')}
-                </NavDropdown.Item>
-              </NavDropdown>
+              {/* Google Translate Widget with Label */}
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '8px',
+                marginLeft: '10px',
+                marginRight: '10px'
+              }}>
+                <span style={{ 
+                  color: 'white', 
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  whiteSpace: 'nowrap'
+                }}>
+                  Language:
+                </span>
+                <div id="google_translate_element"></div>
+              </div>
 
               {userInfo ? (
                 <NavDropdown
@@ -170,7 +164,7 @@ function NavBar() {
               )}
             </Nav>
           </Navbar.Collapse>
-        </Container>
+        </div>
       </Navbar>
     </header>
   );

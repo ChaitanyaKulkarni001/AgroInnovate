@@ -1,9 +1,8 @@
-import { Card, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addToCompare, addToCart } from '../actions/productActions'
+import '../styles/AmazonStyle.css'
 
 function Product({ product }) {
     const dispatch = useDispatch()
@@ -17,30 +16,53 @@ function Product({ product }) {
     }
 
     return (
-        <div>
-            <Card className="mb-4 rounded shadow card-hover transition">
-
-                <Card.Body>
-                <Link to={`/product/${product.id}`} className="block">
-                    <Card.Img variant="top" src={product.image} height="162" className="object-cover w-full rounded" />
+        <div className="product-card">
+            <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                <div className="product-card-image-container">
+                    <img 
+                        src={product.image} 
+                        alt={product.name}
+                        className="product-card-image"
+                    />
+                </div>
+            </Link>
+            
+            <div className="product-card-body">
+                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                    <h3 className="product-card-title">
+                        {product.name}
+                    </h3>
                 </Link>
-                    <Link to={`/product/${product.id}`} className="no-underline">
-                        <Card.Title as="div" className="mt-2">
-                            <strong className="text-gray-800">{product.name}</strong>
-                        </Card.Title>
-                    </Link>
 
-                    <Card.Text as="div" className="flex items-center justify-between">
-                        <span className="text-xl font-semibold text-green-700">₹ {product.price}</span>
-                        {product.rating && <span className="text-sm bg-green-100 text-green-700 px-2 py-1 rounded">★ {product.rating}</span>}
-                    </Card.Text>
-
-                    <div className="mt-2 flex gap-2">
-                        <Button size="sm" variant="outline-success" onClick={onCompare}>Add to Compare</Button>
-                        <Button size="sm" variant="success" onClick={onAddToCart}>Add to Cart</Button>
+                {product.rating && (
+                    <div className="product-rating">
+                        <span className="product-stars">★★★★☆</span>
+                        <span className="product-rating-count">
+                            {product.rating}
+                        </span>
                     </div>
-                </Card.Body>
-            </Card>
+                )}
+
+                <div className="product-price">
+                    <span className="product-price-symbol">₹</span>
+                    {product.price}
+                </div>
+
+                <div className="product-buttons">
+                    <button 
+                        className="btn-amazon-secondary" 
+                        onClick={onAddToCart}
+                    >
+                        Add to Cart
+                    </button>
+                    <button 
+                        className="btn-amazon-outline" 
+                        onClick={onCompare}
+                    >
+                        Add to Compare
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }

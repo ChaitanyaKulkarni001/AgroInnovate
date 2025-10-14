@@ -13,8 +13,8 @@ export default function CartPage() {
 
   const goToCheckout = () => {
     if (items.length > 0) {
-      // navigate to first product checkout as demo
-      history.push(`/product/${items[0].id}/checkout/`)
+      // Navigate to cart checkout with all items
+      history.push('/cart/checkout')
     }
   }
 

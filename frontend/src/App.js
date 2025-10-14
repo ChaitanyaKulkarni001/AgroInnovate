@@ -21,6 +21,7 @@ import NotFound from './pages/NotFoundPage'
 import Landing from './landing/Landing'
 import ComparePage from './pages/ComparePage'
 import CartPage from './pages/CartPage'
+import CartCheckoutPage from './pages/CartCheckoutPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import FarmerDashboard from './pages/FarmerDashboard'
 import BuyerDashboard from './pages/BuyerDashboard'
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/" component={ProductListPage} exact />
            <Route path="/landing" component={Landing} exact />
            <Route path="/compare" component={ComparePage} exact />
+           <Route path="/cart/checkout" component={CartCheckoutPage} exact />
            <Route path="/cart" component={CartPage} exact />
            <ProtectedRoute path="/farmer" roles={["FARMER"]} component={FarmerDashboard} exact />
            <ProtectedRoute path="/buyer" roles={["BUYER"]} component={BuyerDashboard} exact />

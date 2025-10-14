@@ -77,53 +77,73 @@ function ProductsListPage() {
 
   return (
     <div
-      className="container py-4"
-      style={{ backgroundColor: '#e6f5e6', minHeight: '100vh' }}
+      style={{ backgroundColor: '#e6f5e6', minHeight: '100vh', paddingTop: '1.5rem', paddingBottom: '2rem' }}
     >
-      {error && <Message variant="danger">{error}</Message>}
+      <div className="container" style={{ maxWidth: '1400px' }}>
+        {error && <Message variant="danger">{error}</Message>}
 
-      <div className="mb-3 p-3 bg-white border rounded shadow-sm">
-        <Form onSubmit={applyFilters} className="row g-2">
-          <div className="col-sm-3">
-            <Form.Control placeholder="Category" value={category} onChange={(e)=>setCategory(e.target.value)} />
-          </div>
-          <div className="col-sm-3">
-            <Form.Control placeholder="Crop Type" value={cropType} onChange={(e)=>setCropType(e.target.value)} />
-          </div>
-          <div className="col-sm-2">
-            <Form.Control placeholder="Min Price" value={minPrice} onChange={(e)=>setMinPrice(e.target.value)} />
-          </div>
-          <div className="col-sm-2">
-            <Form.Control placeholder="Max Price" value={maxPrice} onChange={(e)=>setMaxPrice(e.target.value)} />
-          </div>
-          <div className="col-sm-2">
-            <Button type="submit" variant="success" style={{ width: '100%' }}>Apply</Button>
-          </div>
-        </Form>
-      </div>
-
-      {loading && (
-        <div className="d-flex align-items-center mb-4">
-          {/* Wrap "Getting Products" in t() */}
-          <h5 className="mb-0 text-success">{t('getting_products')}</h5>
-          {/* Note: if you're using Bootstrap 4, keep className="ml-3"; if Bootstrap 5, use "ms-3" */}
-          <Spinner animation="border" variant="success" className="ml-3" />
+        <div className="mb-4 p-3 bg-white border rounded shadow-sm">
+          <Form onSubmit={applyFilters} className="row g-3 align-items-end">
+            <div className="col-sm-6 col-md-3">
+              <Form.Label style={{ fontSize: '0.9rem', marginBottom: '0.3rem' }}>Category</Form.Label>
+              <Form.Control 
+                as="select" 
+                value={category} 
+                onChange={(e)=>setCategory(e.target.value)} 
+                style={{ fontSize: '0.9rem', cursor: 'pointer' }}
+              >
+                <option value="">All Categories</option>
+                <option value="Grains">Grains</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Poultry">Poultry</option>
+                <option value="Feed">Feed</option>
+                <option value="Grocery">Grocery</option>
+                <option value="Seeds">Seeds</option>
+                <option value="Fertilizers">Fertilizers</option>
+                <option value="Tools">Tools & Equipment</option>
+                <option value="Organic">Organic Products</option>
+                <option value="Spices">Spices</option>
+              </Form.Control>
+            </div>
+            <div className="col-sm-6 col-md-3">
+              <Form.Label style={{ fontSize: '0.9rem', marginBottom: '0.3rem' }}>Crop Type</Form.Label>
+              <Form.Control placeholder="Crop Type" value={cropType} onChange={(e)=>setCropType(e.target.value)} style={{ fontSize: '0.9rem' }} />
+            </div>
+            <div className="col-sm-6 col-md-2">
+              <Form.Label style={{ fontSize: '0.9rem', marginBottom: '0.3rem' }}>Min Price</Form.Label>
+              <Form.Control placeholder="Min Price" value={minPrice} onChange={(e)=>setMinPrice(e.target.value)} style={{ fontSize: '0.9rem' }} />
+            </div>
+            <div className="col-sm-6 col-md-2">
+              <Form.Label style={{ fontSize: '0.9rem', marginBottom: '0.3rem' }}>Max Price</Form.Label>
+              <Form.Control placeholder="Max Price" value={maxPrice} onChange={(e)=>setMaxPrice(e.target.value)} style={{ fontSize: '0.9rem' }} />
+            </div>
+            <div className="col-sm-12 col-md-2">
+              <Button type="submit" variant="success" style={{ width: '100%', fontSize: '0.9rem', padding: '0.5rem' }}>Apply</Button>
+            </div>
+          </Form>
         </div>
-      )}
 
-      <Row className="g-4">
-        {filteredProducts.length === 0
-          ? showNothingMessage()
-          : filteredProducts.map((product) => (
-              <Col key={product.id ?? product._id} sm={12} md={6} lg={4} xl={3}>
-                <div
-                  className="p-3 bg-white rounded shadow-sm border border-green-200 h-100"
-                >
+        {loading && (
+          <div className="d-flex align-items-center mb-4">
+            {/* Wrap "Getting Products" in t() */}
+            <h5 className="mb-0 text-success">{t('getting_products')}</h5>
+            {/* Note: if you're using Bootstrap 4, keep className="ml-3"; if Bootstrap 5, use "ms-3" */}
+            <Spinner animation="border" variant="success" className="ml-3" />
+          </div>
+        )}
+
+        <Row className="g-3">
+          {filteredProducts.length === 0
+            ? showNothingMessage()
+            : filteredProducts.map((product) => (
+                <Col key={product.id ?? product._id} xs={12} sm={6} md={6} lg={4} xl={3}>
                   <Product product={product} />
-                </div>
-              </Col>
-            ))}
-      </Row>
+                </Col>
+              ))}
+        </Row>
+      </div>
     </div>
   );
 }

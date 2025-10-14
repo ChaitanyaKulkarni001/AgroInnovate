@@ -4,6 +4,7 @@ import { Spinner, Form, Button, Card, InputGroup } from 'react-bootstrap'
 import { chargeCustomer } from '../actions/cardActions'
 import { Link, useHistory } from "react-router-dom";
 import { getSingleAddress } from '../actions/userActions'
+import { clearCart } from '../actions/productActions'
 import Message from './Message'
 import axios from 'axios'
 import FakeRazorpayModal from './FakeRazorpayModal'
@@ -90,6 +91,12 @@ const ChargeCardComponent = ({ product, match, selectedAddressId, addressSelecte
     }
 
     if (chargeSuccessfull) {
+        // Clear cart after successful payment from cart checkout
+        const isCartCheckout = product && product.name === 'Cart Items'
+        if (isCartCheckout) {
+            dispatch(clearCart())
+        }
+        
         history.push({
             pathname: '/payment-status/',
             state: { detail: product }

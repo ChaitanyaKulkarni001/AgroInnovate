@@ -265,7 +265,7 @@ const CreateCardComponent = ({ stripeCards, addressSelected }) => {
 
             <div className="my-4 card px-4 py-4">
                 <h5>Saved card</h5>
-                {stripeCards.length > 0 ?
+                {stripeCards && stripeCards.length > 0 ?
                     stripeCards.map(cardData => (
                         <div key={cardData.id}>
                             <Card
