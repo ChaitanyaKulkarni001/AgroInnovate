@@ -1,0 +1,75 @@
+/* LoginPage.css */
+
+.login-page-wrapper {
+  background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 0;
+}
+
+.login-container {
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px 40px;
+  box-shadow: 0 8px 20px rgba(0, 128, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2e7d32;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.login-button {
+  width: 100%;
+  background-color: #4caf50;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #388e3c;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}

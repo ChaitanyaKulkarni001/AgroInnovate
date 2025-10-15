@@ -1,0 +1,332 @@
+/* ========================================
+   AMAZON-INSPIRED PROFESSIONAL STYLING
+   AgroInnovate - Agricultural Marketplace
+   ======================================== */
+
+/* ========================================
+   PRODUCT CARDS - Amazon Style
+   ======================================== */
+
+.product-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-color: #c7c7c7;
+  transform: translateY(-2px);
+}
+
+.product-card-image-container {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-card-image {
+  transform: scale(1.05);
+}
+
+.product-card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-card-title {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #0F1111;
+  margin-bottom: 8px;
+  font-weight: 400;
+  min-height: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-card-title:hover {
+  color: #C7511F;
+  text-decoration: none;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.product-stars {
+  color: #FFA41C;
+  letter-spacing: 2px;
+}
+
+.product-rating-count {
+  color: #007185;
+  font-size: 12px;
+}
+
+.product-rating-count:hover {
+  color: #C7511F;
+  text-decoration: underline;
+}
+
+.product-price {
+  font-size: 24px;
+  color: #B12704;
+  font-weight: 400;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.product-price-symbol {
+  font-size: 14px;
+  vertical-align: super;
+  margin-right: 2px;
+}
+
+.product-mrp {
+  font-size: 13px;
+  color: #565959;
+  text-decoration: line-through;
+  margin-bottom: 8px;
+}
+
+.product-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-amazon-primary {
+  background-color: #FFD814;
+  border-color: #FCD200;
+  border-radius: 8px;
+  color: #0F1111;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid;
+  box-shadow: 0 2px 5px 0 rgb(213 217 217 / 50%);
+}
+
+.btn-amazon-primary:hover {
+  background-color: #F7CA00;
+  border-color: #F2C200;
+  box-shadow: 0 2px 5px 0 rgba(213, 217, 217, .5);
+}
+
+.btn-amazon-secondary {
+  background-color: #FFA41C;
+  border-color: #FF8F00;
+  border-radius: 8px;
+  color: #0F1111;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid;
+}
+
+.btn-amazon-secondary:hover {
+  background-color: #FA8900;
+  border-color: #E77600;
+}
+
+.btn-amazon-outline {
+  background-color: white;
+  border: 1px solid #D5D9D9;
+  border-radius: 8px;
+  color: #0F1111;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 7px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-amazon-outline:hover {
+  background-color: #F7FAFA;
+  border-color: #008296;
+}
+
+/* ========================================
+   FILTER SECTION - Amazon Style
+   ======================================== */
+
+.filter-container {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  flex: 1 1 180px;
+  min-width: 150px;
+}
+
+.filter-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0F1111;
+  margin-bottom: 6px;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #D5D9D9;
+  border-radius: 4px;
+  background-color: white;
+  transition: border-color 0.15s ease;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #E77600;
+  box-shadow: 0 0 0 3px rgba(228, 121, 17, 0.1);
+}
+
+.filter-button {
+  flex: 0 0 auto;
+  min-width: 100px;
+}
+
+/* ========================================
+   PRODUCT GRID LAYOUT
+   ======================================== */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+@media (min-width: 1400px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ========================================
+   PAGE CONTAINER
+   ======================================== */
+
+.page-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 80px);
+}
+
+/* ========================================
+   LOADING & EMPTY STATES
+   ======================================== */
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 12px;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #565959;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.empty-state-text {
+  font-size: 18px;
+  color: #565959;
+  margin: 0;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-amazon-link {
+  color: #007185;
+  text-decoration: none;
+}
+
+.text-amazon-link:hover {
+  color: #C7511F;
+  text-decoration: underline;
+}
+

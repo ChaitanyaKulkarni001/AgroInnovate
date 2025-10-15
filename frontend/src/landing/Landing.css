@@ -1,0 +1,58 @@
+/* Landing Page Styles */
+
+.hero-section {
+  overflow: hidden;
+}
+
+.hero-section .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* Category Card Styles */
+.category-card {
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  background: white;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.category-card img {
+  height: 180px;
+  object-fit: cover;
+  width: 100%;
+  display: block;
+}
+
+.category-card-title {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 50vh !important;
+  }
+  
+  .hero-section h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  .hero-section p {
+    font-size: 0.9rem !important;
+  }
+}
+
